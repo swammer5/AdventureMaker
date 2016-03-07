@@ -1,2 +1,2 @@
 # AdventureMaker
-Repository for a text adventure game engine named Adventure Maker
+Repository for a text adventure game engine.
