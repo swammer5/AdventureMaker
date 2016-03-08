@@ -15,4 +15,13 @@ public class Player {
 		this.name = name;
 		// TODO: instantiate other fields
 	}
+	
+	/**
+	 * Returns the name of this
+	 * 
+	 * @return the name of this
+	 */
+	public String name() {
+		return name;
+	}
 }
