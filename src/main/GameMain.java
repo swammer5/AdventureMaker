@@ -9,7 +9,6 @@ public class GameMain {
 	private static GameModel model;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		System.out.println("Welcome to your very own adventure!");
 		
 		Scanner in = new Scanner(System.in);
@@ -48,7 +47,7 @@ public class GameMain {
 			String line = in.nextLine().toLowerCase().trim();
 			if (!line.equals("")) {
 				String[] tokens = line.split(" ");
-				String command = tokens[0]; // TODO: test split on empty string
+				String command = tokens[0];
 				if (command.equals("m") || command.equals("menu") ||
 						command.equals("h") || command.equals("help") || 
 						command.equals("?")) {
