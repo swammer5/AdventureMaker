@@ -17,8 +17,10 @@ public class GameMain {
 		setup();
 		
 		interact(in);
+		save();
 		System.exit(0);
 	}
+
 
 	/**
 	 * Sets up the GameModel to prepare the game.
@@ -28,6 +30,14 @@ public class GameMain {
 		model = new GameModel();
 	}
 
+	/**
+	 * Asks GameModel to save the game for this file
+	 */
+	private static void save() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	/**
 	 * Handles main interaction with user.
 	 */
@@ -44,6 +54,7 @@ public class GameMain {
 						command.equals("?")) {
 					menu();
 				} else if (command.equals("q")) {
+					quit = true;
 	          /*
 				} else if () {
 					
