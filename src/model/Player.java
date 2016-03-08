@@ -1,7 +1,7 @@
 package model;
 
 /**
- * <b>Player</b> is a data encapulation class that represents the player in the
+ * <b>Player</b> is a data encapsulation class that represents the player in the
  * game.
  * 
  * @author swammer
