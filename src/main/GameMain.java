@@ -40,9 +40,8 @@ public class GameMain {
 				String[] tokens = line.split(" ");
 				String command = tokens[0]; // TODO: test split on empty string
 				if (command.equals("m") || command.equals("menu") ||
-						command.equals("help") || command.equals("h") || 
+						command.equals("h") || command.equals("help") || 
 						command.equals("?")) {
-					in.nextLine();
 					menu();
 				} else if (command.equals("q")) {
 	          /*
