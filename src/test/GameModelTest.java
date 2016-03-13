@@ -7,5 +7,4 @@ public class GameModelTest extends TestCase {
 	public void testExecute() {
 		fail("Not yet implemented");
 	}
-
 }
