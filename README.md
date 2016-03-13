@@ -1,3 +1,2 @@
 # AdventureMaker
-Repository for a text adventure game engine.
-Commit from Eclipse
+AdventureMaker is a text adventure game engine that is focused on flexibility. We only require that there are rooms with descriptioms and you can move between them. Otherwise, the commands a player can use are entirely up to the game designer. Want to write a murder mystery set in a dystopian future? Want to build an electionic choose your own adventure novel? Want to build an interactive poetry showcase? Anything is possible with AdventureMaker.
