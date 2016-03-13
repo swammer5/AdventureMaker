@@ -5,15 +5,22 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Offers an interface with the game state.
  * 
- * @author swammer
+ * @author Sean Wammer
  */
 public class GameModel {
+	
+	GameState gameState;
 	
 	/**
 	 * Constructs a new GameModel
 	 */
 	public GameModel() {
 		// TODO: instantiate fields
+		
+		// when we want to load from a file, we won't make a new GameState,
+		// we will call GameParser.loadGameState(filepath) to return a populated
+		// GameState
+		GameState gameState = new GameState();
 	}
 	
 	/**
@@ -24,6 +31,14 @@ public class GameModel {
 	 * @return true iff the command was recognized and run
 	 */
 	public boolean execute(String command) {
+		throw new NotImplementedException();
+	}
+	
+	public boolean go(String roomName) {
+		throw new NotImplementedException();
+	}
+	
+	public void look() {
 		throw new NotImplementedException();
 	}
 }
