@@ -4,6 +4,11 @@ import java.util.Scanner;
 
 import model.GameModel;
 
+/**
+ * <b>GameMain</b> lets players load, play, and save text adventure games.
+ * 
+ * @author Sean Wammer
+ */
 public class GameMain {
 
 	private static GameModel model;
