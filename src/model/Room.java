@@ -4,6 +4,12 @@ import java.util.Map;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+/**
+ * <b>Room</b> represents a a mutable room in a text adventure game. Rooms can
+ * register user commands associated with Scripts that run Commands.
+ * 
+ * @author Sean Wammer
+ */
 public class Room {
 
 	String name;
