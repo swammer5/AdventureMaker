@@ -9,7 +9,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class GameModel {
 	
-	GameState gameState;
+	private GameState gameState;
 	
 	/**
 	 * Constructs a new GameModel
