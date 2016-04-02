@@ -32,12 +32,11 @@ public class Graph<K> {
      * 
      * If the given node is already in this graph, then the previous node is
      * overwritten. The previous node is overwritten if and only if the two
-     * nodes are equal, that is, for two nodes A and B, if A.equals(B), and
-     * B is added after A is added, B will overwrite A.
+     * nodes are equal, that is, for two nodes A and B, if A.equals(B), and B is
+     * added after A is added, B will overwrite A.
      * 
      * @param data The data to be inserted as a node in this Graph
-     * @throws IllegalArgumentException
-     *             if (node == null)
+     * @throws IllegalArgumentException if (node == null)
      */
     public void addNode(K data) {
         if (data == null) {
@@ -58,31 +57,44 @@ public class Graph<K> {
      * 
      * @param parent The K the added edge points from
      * @param child The K the added edge points to
-     * @throws IllegalArgumentException
-     *             if (parent == null || child == null)
+     * @throws IllegalArgumentException if (parent == null || child == null)
      */
     public void addEdge(K parent, K child) {
         if (parent == null || child == null) {
-            throw new IllegalArgumentException("parent and child must not be null");
+            throw new IllegalArgumentException(
+                    "parent and child must not be null");
         }
-        
-        Edge edge = new Edge<K>(new Node<K>(parent),new Node<K>(child));
+
+        Edge edge = new Edge<K>(new Node<K>(parent), new Node<K>(child));
         Node<K> parentNode = edge.parent();
         Node<K> childNode = edge.child();
-        
+
         if (!nodes.containsKey(parentNode)) { // missing parent
             addNode(parent);
         }
         if (!nodes.containsKey(childNode)) { // missing child
             addNode(child);
         }
-        
+
         // add edge to existing set in map
         nodes.get(parentNode).add(edge);
     }
-    
+
     /**
+     * Returns all the node objects K that are adjacent to source, or null if
+     * there is no node with object source.
      * 
+     * @param source The node to retrieve adjacent nodes from
      */
-    public Set<K> adjacent(K)
+    public Set<K> adjacent(K source) {
+        Set<K> adjacent = new HashSet<>();
+        Node<K> sourceNode = new Node<>(source);
+
+        // get all the adjacent objects
+        for (Edge<K> edge : nodes.get(sourceNode)) {
+            adjacent.add(edge.child().data());
+        }
+
+        return adjacent;
+    }
 }
