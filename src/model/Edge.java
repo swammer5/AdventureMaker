@@ -36,8 +36,7 @@ public class Edge<S> {
      * Constructs a new Edge with the given parent and child nodes
      * 
      * @param child The Node that this Edge points to
-     * @throws IllegalArgumentException
-     *         if (label == null || child == null)
+     * @throws IllegalArgumentException if (label == null || child == null)
      */
     public Edge(Node<S> parent, Node<S> child) {
         if (parent == null || child == null) {

@@ -19,8 +19,7 @@ public class Node<S> {
 
     /**
      * @param data Object of type S to represent the node data
-     * @throws IllegalArgumentException
-     *         if (data == null)
+     * @throws IllegalArgumentException if (data == null)
      */
     public Node(S data) {
         if (data == null) {
@@ -35,7 +34,7 @@ public class Node<S> {
      * 
      * @return node data
      */
-    public S name() {
+    public S data() {
         return data;
     }
 
