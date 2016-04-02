@@ -3,7 +3,8 @@ package model;
 /**
  * <b>Node</b> represents an node of a graph.
  * 
- * @param <S> the type of node data
+ * @param <S>
+ *            the type of node data
  * 
  * @specfield data : S // stores node data
  */
@@ -18,7 +19,8 @@ public class Node<S> {
 	// data != null
 
 	/**
-	 * @param data Object of type S to represent the node data
+	 * @param data
+	 *            Object of type S to represent the node data
 	 * @throws IllegalArgumentException
 	 *             if (data == null)
 	 */

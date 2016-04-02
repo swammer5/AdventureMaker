@@ -10,7 +10,8 @@ package model;
  * 
  * where A is the parent Node and B is the child node.
  * 
- * @param <S> the type that Node stores
+ * @param <S>
+ *            the type that Node stores
  * 
  * @specfield parent: Node<S> // the Node that this points from
  * @specfield child : Node<S> // the Node that this points to
@@ -35,7 +36,8 @@ public class Edge<S> {
 	/**
 	 * Constructs a new Edge with the given parent and child nodes
 	 * 
-	 * @param child The Node that this Edge points to
+	 * @param child
+	 *            The Node that this Edge points to
 	 * @throws IllegalArgumentException
 	 *             if (label == null || child == null)
 	 */
