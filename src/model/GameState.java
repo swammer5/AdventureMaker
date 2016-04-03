@@ -37,7 +37,7 @@ public class GameState {
         Set<String> availableRooms = new HashSet<>();
 
         for (Room room : rooms.adjacent(currentPlayerRoom)) {
-            availableRooms.add(room.shortName());
+            availableRooms.add(room.getShortName());
         }
 
         return availableRooms;
