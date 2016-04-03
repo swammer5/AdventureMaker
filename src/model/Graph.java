@@ -97,4 +97,21 @@ public class Graph<K> {
 
         return adjacent;
     }
+
+    /**
+     * Removes the edge in this Graph from given parent to the given child. Has
+     * no effect if the edge does not exist.
+     * 
+     * You specify the target edge by specifying end point nodes, A and B in
+     * edge, (A,B).
+     * 
+     * @param parent The node the target edge points from
+     * @param child The node the target edge points to
+     */
+    public void removeEdge(K parent, K child) {
+        Node<K> parentNode = new Node<K>(parent);
+        if (nodes.containsKey(parentNode)) {
+            nodes.get(parentNode).remove(new Node<K>(child));
+        }
+    }
 }
