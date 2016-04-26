@@ -35,22 +35,30 @@ public class Room {
     public String getShortName() {
         return shortName;
     }
+    
+    // TODO add other getter methods
+    
+    // TODO add setter methods too
+    
+    // TODO reorder methods so they make sense
 
     /**
-     * Returns true if the input is a recognized command and the associated
-     * script was run successfully. Returns false otherwise.
+     * Runs the Script associated with the given command. Returns the output
+     * that the commands produce to be printed by main, the empty string if
+     * there is no output. Returns null if the command was not recognized in
+     * this room.
      * 
      * @param input the command to attempt to run
-     * @return true iff the script associated with the given input is run
-     *         successfully
+     * @return the output that these commands produce to be printed by main or
+     *         an empty String if there is no output, or null if the command is
+     *         not recognized in this Room.
      */
-    public boolean execute(String input) {
+    public String execute(String input) {
+        input = fix(input);
         if (!hasCommand(input)) {
-            return false;
+            return null;
         } else {
-            // this is where we run the script and return whether the script
-            // was successful or not.
-            throw new NotImplementedException();
+            return acceptedCommands.get(input).execute();
         }
     }
 
@@ -60,14 +68,22 @@ public class Room {
      * with the given command. Given input is not case-sensitive. Room will not
      * remember the case of the command.
      * 
-     * Returns true if a script was overwritten when registering this new user
-     * input.
-     * 
      * @param input the user command to register that triggers the given script
      * @param script the script to add to this room
      */
     public void addScript(String input, Script script) {
         input = fix(input);
+        // TODO implement
+        throw new NotImplementedException();
+    }
+
+    /**
+     * Removes the Script associated with the given user input from this room.
+     * 
+     * @param input the user command associated with the Script to remove
+     */
+    public void removeScript(String input) {
+        acceptedCommands.remove(fix(input));
     }
 
     /**
@@ -76,7 +92,7 @@ public class Room {
      * 
      * @param input the user command to retrieve the Script of
      * @return the Script associated with the given input or null if there is no
-     *         script
+     *         script associated with this input.
      */
     public Script getScript(String input) {
         return acceptedCommands.get(input);
@@ -90,8 +106,7 @@ public class Room {
      * @return true iff this room has the given input registered to a script
      */
     public boolean hasCommand(String input) {
-        input = fix(input);
-        return acceptedCommands.containsKey(input);
+        return acceptedCommands.containsKey(fix(input));
     }
 
     /**
