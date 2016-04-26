@@ -29,21 +29,25 @@ public class GameModel {
     }
 
     /**
-     * Returns true if and only if the command was recognized by the room. Runs
-     * the script associated with the command in this room.
+     * Returns true if and only if the command was recognized by the room the
+     * player is currently in. Runs the script associated with the command in
+     * this room.
      * 
      * @param command the command to attempt to run in this room
      * @return true iff the command was recognized and run
      */
     public boolean execute(String command) {
+        // TODO implement
         throw new NotImplementedException();
     }
 
     public boolean go(String roomName) {
+        // TODO implement
         throw new NotImplementedException();
     }
 
     public void look() {
+        // TODO implement
         throw new NotImplementedException();
     }
 
