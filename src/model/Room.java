@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +25,19 @@ public class Room {
     private List<String> items;
     private Map<String, Script> acceptedCommands;
 
-    public Room() {
-        throw new NotImplementedException();
+    public Room(String shortName) {
+        this(shortName, shortName, "...", "...", new ArrayList<String>(), new HashMap<String,Script>());
+    }
+
+    public Room(String shortName, String name, String shortDesc,
+            String longDesc, List<String> items,
+            Map<String, Script> acceptedCommands) {
+        this.shortName = shortName;
+        this.name = name;
+        this.shortDesc = shortDesc;
+        this.longDesc = longDesc;
+        this.items = items;
+        this.acceptedCommands = acceptedCommands;
     }
 
     /**
