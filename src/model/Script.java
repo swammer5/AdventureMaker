@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -10,19 +13,28 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Script {
 
-    public Script() {
-        throw new NotImplementedException();
+    private List<Command> commands;
+    // TODO add other fields
+    
+    public Script(Iterable<Command> commands) {
+        this.commands = new ArrayList<>();
+        // copy in (commands are immutable)
+        for (Command command : commands) {
+            this.commands.add(command);
+        }
+        // TODO add other fields
     }
 
     /**
-     * Executes the list of Command in this Script recursively in order. Returns
-     * any text to be printed or null if there is no output.
+     * Executes the list of Command in this Script recursively in order.
      * 
-     * @return the output that these commands produce to be printed by main or
-     *         an empty String if there is no output.
+     * @return the output that these commands produce to be printed by main.
      */
     public String execute() {
         String ret = "";
-        throw new NotImplementedException();
+        for (Command command : commands) {
+            ret += command.execute();
+        }
+        return ret;
     }
 }
