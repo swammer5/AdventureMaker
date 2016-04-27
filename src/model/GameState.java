@@ -15,22 +15,31 @@ public class GameState {
 
     private Graph<Room> rooms;
     private Player player;
-    private Room currentPlayerRoom;
+    private String currRoom;
     private Map<String, Room> nameToRoom;
 
-    /*
+    /**
      * Constructs a new GameState with the given data. GameState behavior not
      * specified if any of the given parameters are mutated. Internal state is
      * exposed.
      * 
      * In general, parser utility classes should load this data and construct a
      * new GameState.
+     * 
+     * @param rooms a graph of all the rooms in this game with edges between
+     *        adjacent rooms
+     * @param player the player status
+     * @param currentPlayerRoom the short name of the room that the player is
+     *        currently in
+     * @param nameToRoom a map of all the short names of rooms to the room they
+     *        reference. The Rooms in nameToRoom must be reference equal to the
+     *        rooms in param 'rooms' such that modifying one modifies the other
      */
-    public GameState(Graph<Room> rooms, Player player, Room currentPlayerRoom,
-            Map<String, Room> nameToRoom) {
+    public GameState(Graph<Room> rooms, Player player,
+            String currentPlayerRoom, Map<String, Room> nameToRoom) {
         this.rooms = rooms;
         this.player = player;
-        this.currentPlayerRoom = currentPlayerRoom;
+        this.currRoom = currentPlayerRoom;
         this.nameToRoom = nameToRoom;
     }
 
@@ -42,7 +51,8 @@ public class GameState {
     public Set<String> adjacentRooms() {
         Set<String> availableRooms = new HashSet<>();
 
-        for (Room room : rooms.adjacent(currentPlayerRoom)) {
+        // retrieve all the short names of all the adjacent rooms
+        for (Room room : rooms.adjacent(nameToRoom.get(currRoom))) {
             availableRooms.add(room.getShortName());
         }
 
