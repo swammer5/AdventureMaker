@@ -1,5 +1,7 @@
 package model;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 /**
  * <b>Command</b> is an abstract representation of a request to the game state.
  * 
@@ -23,4 +25,17 @@ public class Command {
 		System.arraycopy(args, 0, this.args, 0, args.length);
 	}
 	
+	/**
+	 * Runs this command. Returns output that should be printed.
+	 * 
+	 * @return output of this to be printed
+	 */
+	public String execute() {
+	    /*
+         * if (commandType == CommandType.ADD_HEALTH) {
+         *     addHealth(args[0]);
+         * } else if ...
+         */
+	    throw new NotImplementedException();
+	}
 }
