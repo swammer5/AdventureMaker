@@ -2,6 +2,12 @@ package model;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+/**
+ * <b>Script</b> represents a executable list of commands. Scripts run commands
+ * on the game state to modify it and can return output.
+ * 
+ * @author swammer
+ */
 public class Script {
 
     public Script() {
