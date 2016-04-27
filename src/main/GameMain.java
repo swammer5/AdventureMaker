@@ -79,6 +79,9 @@ public class GameMain {
                      * } else if () {
                      */
                 } else {
+                    // for anything else we should just call execute(input) on
+                    // GameModel, then if the result is null we print command
+                    // not recognized.
                     print("Command not recognized. Try \"menu,\""
                             + "\"help,\" or \"?\" to see valid commands.");
                 }
@@ -119,7 +122,7 @@ public class GameMain {
                 if (lineLength >= MAX_LINE_LENGTH) {
                     System.out.println();
                 }
-                
+
                 System.out.print(word);
                 lineLength += word.length();
 

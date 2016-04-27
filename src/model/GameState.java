@@ -58,4 +58,19 @@ public class GameState {
 
         return availableRooms;
     }
+    
+    /**
+     * Executes the command on the player's current room. Returns the output
+     * that the commands produce to be printed by main or the empty string if
+     * there is no output. Returns null if the command was not recognized in
+     * this room.
+     * 
+     * @param input the command to attempt to run
+     * @return the output that these commands produce to be printed by main or
+     *         an empty String if there is no output, or null if the command is
+     *         not recognized in this Room.
+     */
+    public String execute(String input) {
+        return nameToRoom.get(currRoom).execute(input);
+    }
 }

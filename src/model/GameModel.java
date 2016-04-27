@@ -29,16 +29,15 @@ public class GameModel {
     }
 
     /**
-     * Returns true if and only if the command was recognized by the room the
-     * player is currently in. Runs the script associated with the command in
-     * this room.
+     * Runs the script associated with the command in the player's current room.
+     * Returns the output that the command produces, or null if the command is
+     * not recognized.
      * 
-     * @param command the command to attempt to run in this room
-     * @return true iff the command was recognized and run
+     * @param input the command to attempt to run in this room
+     * @return the output produced by the command input
      */
-    public boolean execute(String command) {
-        // TODO implement
-        throw new NotImplementedException();
+    public String execute(String input) {
+        return gameState.execute(input);
     }
 
     public boolean go(String roomName) {
@@ -61,5 +60,14 @@ public class GameModel {
      */
     public Set<String> adjacentRooms() {
         return gameState.adjacentRooms();
+    }
+
+    /**
+     * Returns the GameState for the game this models
+     * 
+     * @return the GameState
+     */
+    public GameState getGameState() {
+        return gameState;
     }
 }
