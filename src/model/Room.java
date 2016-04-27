@@ -13,9 +13,10 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Room {
 
-    /** Acts as the identifier for this room */
+    /** Acts as the identifier for this room. Should never be modified */
     private String shortName;
 
+    /** mutable parts of this room, can all be changed with setter methods */
     private String name;
     private String shortDesc;
     private String longDesc;
@@ -35,11 +36,11 @@ public class Room {
     public String getShortName() {
         return shortName;
     }
-    
+
     // TODO add other getter methods
-    
+
     // TODO add setter methods too
-    
+
     // TODO reorder methods so they make sense
 
     /**
@@ -107,6 +108,36 @@ public class Room {
      */
     public boolean hasCommand(String input) {
         return acceptedCommands.containsKey(fix(input));
+    }
+
+    @Override
+    public int hashCode() {
+        // TODO implement
+        // IMPLEMENTATION NOTE, HASH CODE CAN ONLY DEPEND ON THE *IMMUTABLE*
+        // PARTS OF THIS ROOM, SO THAT WE CAN SET ALL THESE FIELDS LATER, AND IT
+        // WON'T VIOLATE THE STATE OF THE GRAPH BY RETURNING DIFFERENT HASH
+        // CODES LATER. IF YOU ARE CHANGING THIS FUNCTION, THINK HARD BEFORE YOU
+        // DO SO.
+        return getShortName().hashCode();
+    }
+
+    /**
+     * Returns true if and only if this room is equal to the given object. Two
+     * Rooms are equal if their short names are equal. This is because the short
+     * name acts as the room's ID and should be unique in the game.
+     * 
+     * @param o the object to be tested for equality with this room
+     * @return true iff this room's short name is equal to o's short name
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Room)) {
+            return false;
+        }
+
+        Room other = (Room) o;
+
+        return other.getShortName().equals(getShortName());
     }
 
     /**
