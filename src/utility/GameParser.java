@@ -1,12 +1,19 @@
 package utility;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import model.Command;
+import model.CommandType;
+import model.GameModel;
 import model.GameState;
 import model.Graph;
 import model.Player;
 import model.Room;
+import model.Script;
 
 /**
  * <b>GameParser</b> is a utility class that handles loading game data from
@@ -29,11 +36,11 @@ public class GameParser {
      * @return a newly constructed GameState loaded from the files stored at the
      *         given filePath
      */
-    public GameState loadGameState(String filePath) {
+    public GameState loadGameState(GameModel gameModel, String filePath) {
         // load each parameter of the GameState
 
         // load rooms
-        RoomData rd = loadRooms(filePath);
+        RoomData rd = loadRooms(gameModel, filePath);
         Graph<Room> rooms = rd.graph;
         Map<String, Room> nameToRoom = rd.map;
 
@@ -54,8 +61,38 @@ public class GameParser {
         return new PlayerData(player, currentRoom);
     }
 
-    private RoomData loadRooms(String filePath) {
-        throw new NotImplementedException();
+    private RoomData loadRooms(GameModel gameModel, String filePath) {
+        // Stubbed out with a mock room that has a knife and 1 command, 'jump'.
+        // TODO implement actual parsing
+        
+        Graph<Room> rooms = new Graph<>();
+
+        // construct item list
+        List<String> items = new ArrayList<>();
+        items.add("knife");
+
+        // construct accepted input map
+        Map<String, Script> acceptedCommands = new HashMap<>();
+        String[] args = new String[1];
+        args[0] = "You jump with joy!";
+        Script script = new Script();
+        script.add(new Command(gameModel, CommandType.PRINT, args));
+        acceptedCommands.put("jump", script);
+        
+        // construct room
+        Room room = new Room(
+                "Kitchen",
+                "The West Wing Kitchen",
+                "There is a small oven and stove combination appliance nearby. On a small table you see a knife.",
+                "There is a small oven and stove combination appliance nearby. The room is brightly lit and clean. The floor is made up of black and white glossy, checkered tiles. On a small table you see a small but sharp knife.",
+                items, acceptedCommands);
+        rooms.addNode(room);
+        
+        // fill name map with each room
+        Map<String, Room> nameToRoom = new HashMap<>();
+        nameToRoom.put(room.getShortName(), room);
+        
+        return new RoomData(rooms, nameToRoom);
     }
 
     /**
