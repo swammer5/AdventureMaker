@@ -82,8 +82,13 @@ public class GameMain {
                     // for anything else we should just call execute(input) on
                     // GameModel, then if the result is null we print command
                     // not recognized.
-                    print("Command not recognized. Try \"menu,\""
-                            + "\"help,\" or \"?\" to see valid commands.");
+                    String result = model.execute(line);
+                    if (result == null) {
+                        print("Command not recognized. Try \"menu,\""
+                                + "\"help,\" or \"?\" to see valid commands.");
+                    } else {
+                        print(result);
+                    }
                 }
             }
         }
@@ -126,6 +131,10 @@ public class GameMain {
                 System.out.print(word);
                 lineLength += word.length();
 
+                // if main tries to print new lines manually, reset line length
+                if (word.contains("\n")) {
+                    lineLength = 0;
+                }
             }
         }
     }
