@@ -16,13 +16,18 @@ public class Script {
     private List<Command> commands;
     // TODO add other fields
     
-    public Script(Iterable<Command> commands) {
+    public Script() {
         this.commands = new ArrayList<>();
-        // copy in (commands are immutable)
-        for (Command command : commands) {
-            this.commands.add(command);
-        }
         // TODO add other fields
+    }
+    
+    /**
+     * Adds the given command to the end of this script.
+     * 
+     * @param command the Command to add to this script
+     */
+    public void add(Command command) {
+        commands.add(command);
     }
 
     /**
