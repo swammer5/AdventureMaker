@@ -10,7 +10,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class Command {
 
 	/* an alias to the game state that it will make a call on */
-	GameState gameState;
+	GameModel gameModel;
 	CommandType commandType;
 	String[] args;
 	
@@ -18,8 +18,8 @@ public class Command {
 	 * Constructs a new Command that
 	 * @param gameState
 	 */
-	public Command(GameState gameState, CommandType commandType, String[] args) {
-		this.gameState = gameState;
+	public Command(GameModel gameModel, CommandType commandType, String[] args) {
+		this.gameModel = gameModel;
 		this.commandType = commandType;
 		this.args = new String[args.length];
 		System.arraycopy(args, 0, this.args, 0, args.length);
