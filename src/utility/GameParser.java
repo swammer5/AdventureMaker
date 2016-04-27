@@ -16,6 +16,12 @@ import model.Room;
  */
 public class GameParser {
 
+    // TODO get *static* GameParser to work.
+    // When I tried it, I wasn't able to return objects in the static methods
+    // because there was no GameParser to save it into I guess.
+
+    // we just use the default constructor because we don't need any fields.
+
     /**
      * We load in the room data from rooms.tsv, player data from player.tsv.
      * 
@@ -23,7 +29,7 @@ public class GameParser {
      * @return a newly constructed GameState loaded from the files stored at the
      *         given filePath
      */
-    public static GameState loadGameState(String filePath) {
+    public GameState loadGameState(String filePath) {
         // load each parameter of the GameState
 
         // load rooms
@@ -40,11 +46,15 @@ public class GameParser {
         return new GameState(rooms, player, playerCurrentRoom, nameToRoom);
     }
 
-    private static PlayerData loadPlayer(String filePath) {
-        throw new NotImplementedException();
+    private PlayerData loadPlayer(String filePath) {
+        // Stubbed out
+        // TODO implement actual parsing
+        Player player = new Player("bob", 20, 20);
+        String currentRoom = "Kitchen";
+        return new PlayerData(player, currentRoom);
     }
 
-    private static RoomData loadRooms(String filePath) {
+    private RoomData loadRooms(String filePath) {
         throw new NotImplementedException();
     }
 
