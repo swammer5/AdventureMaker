@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -15,17 +16,22 @@ public class GameState {
     private Graph<Room> rooms;
     private Player player;
     private Room currentPlayerRoom;
+    private Map<String, Room> nameToRoom;
 
     /*
-     * Constructs a new GameState with the given data.
+     * Constructs a new GameState with the given data. GameState behavior not
+     * specified if any of the given parameters are mutated. Internal state is
+     * exposed.
      * 
      * In general, parser utility classes should load this data and construct a
-     * new GameState
+     * new GameState.
      */
-    public GameState(Graph<Room> rooms, Player player, Room currentPlayerRoom) {
+    public GameState(Graph<Room> rooms, Player player, Room currentPlayerRoom,
+            Map<String, Room> nameToRoom) {
         this.rooms = rooms;
         this.player = player;
         this.currentPlayerRoom = currentPlayerRoom;
+        this.nameToRoom = nameToRoom;
     }
 
     /**
