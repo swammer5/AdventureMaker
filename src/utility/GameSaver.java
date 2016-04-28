@@ -12,7 +12,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class GameSaver {
 
-	public static GameState saveGameState(String filePath) {
+	public static GameState saveGameState(String filePath, GameState gameState) {
 		throw new NotImplementedException();
 	}
 	
