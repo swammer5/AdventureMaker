@@ -69,9 +69,13 @@ public class GameMain {
                     menu();
                 } else if (command.equals("q")) {
                     quit = true;
-                    /*
-                     * } else if () {
-                     * 
+                } else if (command.equals("print")) {
+                    String printString = "";
+                    for (int i = 1; i < tokens.length; i++) {
+                        printString += tokens[i] + " ";
+                    }
+                    print(printString);
+                     /* 
                      * } else if () {
                      * 
                      * } else if () {
@@ -118,7 +122,7 @@ public class GameMain {
          * @param s the string to pretty print
          */
         public static void print(String s) {
-            String[] words = s.split("/[ -/_]/");
+            String[] words = s.split("[\\t ]");
             int lineLength = 0;
 
             // print out all words, and a new line each time the line length
@@ -126,16 +130,19 @@ public class GameMain {
             for (String word : words) {
                 if (lineLength >= MAX_LINE_LENGTH) {
                     System.out.println();
+                    lineLength = 0;
                 }
 
-                System.out.print(word);
-                lineLength += word.length();
+                System.out.print(word + " ");
+                lineLength += word.length() + 1;
 
                 // if main tries to print new lines manually, reset line length
                 if (word.contains("\n")) {
                     lineLength = 0;
                 }
             }
+            
+            System.out.println();
         }
     }
 }
