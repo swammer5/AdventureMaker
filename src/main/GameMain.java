@@ -1,5 +1,6 @@
 package main;
 
+import java.util.List;
 import java.util.Scanner;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -13,34 +14,63 @@ import model.GameModel;
 public class GameMain {
 
     private static GameModel model;
+    private static int saveFile;
 
     public static void main(String[] args) {
-        System.out.println("Welcome to your very own adventure!");
+        print("Welcome to your very own adventure!");
 
         Scanner in = new Scanner(System.in);
-        // You might ask for the save file here
-        setup();
 
+        setup(in);
         interact(in);
         save();
+
         System.exit(0);
     }
 
     /**
      * Sets up the GameModel to prepare the game.
      */
-    private static void setup() {
-        // we may want to accept a file number here to load a particular save
-        model = new GameModel();
+    private static void setup(Scanner in) {
+        boolean saveChosen = false;
+        while (!saveChosen) {
+            // print available save files
+            print("Available save files:");
+            List<Integer> saveFiles = GameModel.getSaveFiles();
+            String saves = "";
+            for (int saveFile : saveFiles) {
+                saves = saveFile + " ";
+            }
+            print(saves.trim());
+            
+            // prompt for desired file or create new save file
+            print("Please type in your desired file number (or press return for new game)");
+            int fileNumber;
+            String input = in.nextLine();
+            if (!input.equals("")) {
+                // load game
+                fileNumber = Integer.parseInt(input);
+                if (!saveFiles.contains(fileNumber)) {
+                    print("Invalid file number. Cannot load file.");
+                    continue;
+                } else {
+                    model = GameModel.loadGame(fileNumber);
+                }
+            } else {
+                // new game
+                model = GameModel.newGame();
+            }
+            saveFile = model.getSaveFileNumber();
+            saveChosen = true;
+        }
     }
 
     /**
-     * Asks GameModel to save the game for this file
+     * Asks GameModel to save the game for this file.
      */
     private static void save() {
-        // TODO this is where we ask the game model to save its state to the
-        // file we specified in setup
-        print("Save not implemented. We have not saved your game.");
+        model.saveGame();
+        print("Your save file number is " + saveFile);
     }
 
     /**
@@ -73,9 +103,9 @@ public class GameMain {
                     if (tokens.length > 1) {
                         String printString = tokens[1];
                         print(printString.trim());
-                        
+
                     }
-                     /* 
+                    /*
                      * } else if () {
                      * 
                      * } else if () {
@@ -123,7 +153,7 @@ public class GameMain {
          * @param s the string to pretty print
          */
         public static void print(String s) {
-            String[] words = s.split("[\\t ]");
+            String[] words = s.split("[\\t ]+");
             int lineLength = 0;
 
             // print out all words, and a new line each time the line length
@@ -142,7 +172,7 @@ public class GameMain {
                     lineLength = 0;
                 }
             }
-            
+
             System.out.println();
         }
     }
