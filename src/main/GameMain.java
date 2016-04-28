@@ -61,7 +61,7 @@ public class GameMain {
             // TODO ask for input and redirect to appropriate command method
             String line = in.nextLine().toLowerCase().trim();
             if (!line.equals("")) {
-                String[] tokens = line.split(" ");
+                String[] tokens = line.split(" ", 2);
                 String command = tokens[0];
                 if (command.equals("m") || command.equals("menu")
                         || command.equals("h") || command.equals("help")
@@ -69,12 +69,12 @@ public class GameMain {
                     menu();
                 } else if (command.equals("q")) {
                     quit = true;
-                } else if (command.equals("print")) {
-                    String printString = "";
-                    for (int i = 1; i < tokens.length; i++) {
-                        printString += tokens[i] + " ";
+                } else if (command.equals("p") || command.equals("print")) {
+                    if (tokens.length > 1) {
+                        String printString = tokens[1];
+                        print(printString.trim());
+                        
                     }
-                    print(printString);
                      /* 
                      * } else if () {
                      * 
@@ -103,8 +103,9 @@ public class GameMain {
      */
     private static void menu() {
         print("Menu");
-        print("====");
+        print("============================================");
         print("\t(m)enu or (h)elp or ? - displays this menu");
+        print("\t(p)rint - leave a note for yourself in the console");
         // TODO: rest of the commands
     }
 
