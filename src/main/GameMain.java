@@ -16,6 +16,10 @@ public class GameMain {
     private static GameModel model;
     private static int saveFile;
 
+    private static final String TRAVEL_FAIL = "You can't go there.";
+    private static final String NO_ROOMS = "There is nowhere to go from here.";
+    private static final String BAD_COMMAND = "Command not recognized. Try a different command or try \"menu,\" \"help,\" or \"?\" to see standard commands.";
+
     public static void main(String[] args) {
         print("Welcome to your very own adventure!");
 
@@ -42,7 +46,7 @@ public class GameMain {
                 saves = saveFile + " ";
             }
             print(saves.trim());
-            
+
             // prompt for desired file or create new save file
             print("Please type in your desired file number (or press return for new game)");
             int fileNumber;
@@ -103,25 +107,45 @@ public class GameMain {
                     if (tokens.length > 1) {
                         String printString = tokens[1];
                         print(printString.trim());
+                    }
+                } else if (command.equals("l") || command.equals("look")) {
+                    // print long description of the current room
+                    print(model.longDesc());
+
+                    // print places you can go from here
+                    List<String> rooms = model.adjacentRooms();
+                    if (rooms.isEmpty()) {
+                        print(NO_ROOMS);
+                    } else {
+                        String availableRooms = rooms.get(0);
+                        for (int i = 1; i < rooms.size(); i++) {
+                            String name = rooms.get(i);
+                            availableRooms += ", " + name;
+                        }
+                        print("You can travel to:");
+                        print(availableRooms);
 
                     }
-                    /*
-                     * } else if () {
-                     * 
-                     * } else if () {
-                     * 
-                     * } else if () {
-                     */
+                } else if (command.equals("g") || command.equals("go")) {
+                    if (tokens.length > 1) {
+                        if (model.go(tokens[1])) {
+                            print(model.shortDesc());
+                        } else {
+                            print(TRAVEL_FAIL);
+                        }
+                    } else {
+                        print("Please indicate where you want to go. Try \"go <location name>\"");
+                    }
+                    // TODO add more commands
                 } else {
                     // for anything else we should just call execute(input) on
                     // GameModel, then if the result is null we print command
                     // not recognized.
                     String result = model.execute(line);
-                    if (result == null) {
-                        print("Command not recognized. Try \"menu,\""
-                                + "\"help,\" or \"?\" to see valid commands.");
-                    } else {
+                    if (result != null) {
                         print(result);
+                    } else {
+                        print(BAD_COMMAND);
                     }
                 }
             }
@@ -136,6 +160,9 @@ public class GameMain {
         print("============================================");
         print("\t(m)enu or (h)elp or ? - displays this menu");
         print("\t(p)rint - leave a note for yourself in the console");
+        print("\t(l)ook - take a closer look at your surroundings and see where you can go next");
+        print("\t(g)o - travel to a nearby room or location");
+        print("\t(q)uit - save and end your game session");
         // TODO: rest of the commands
     }
 
