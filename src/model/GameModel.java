@@ -82,6 +82,7 @@ public class GameModel {
 
     /**
      * Returns the save file number that has been loaded for this GameModel
+     * 
      * @return
      */
     public int getSaveFileNumber() {
@@ -93,8 +94,8 @@ public class GameModel {
      */
     public void saveGame() {
         // TODO implement
-//        String filePath = "";
-//        GameSaver.saveGameState(filePath, gameState);
+        // String filePath = "";
+        // GameSaver.saveGameState(filePath, gameState);
         throw new NotImplementedException();
     }
 
@@ -110,12 +111,26 @@ public class GameModel {
         return gameState.execute(input);
     }
 
+    /**
+     * Moves the player to the room with the given name if that room is adjacent
+     * to the current room. Returns true if the player is moved successfully or
+     * false if the given room is not adjacent to the player's current room.
+     * 
+     * @param roomName the short name of the room to travel to.
+     * @return true if the player is moved successfully and false if the given
+     *         room is not adjacent to the player's current room.
+     */
     public boolean go(String roomName) {
         // TODO implement
         throw new NotImplementedException();
     }
 
-    public void look() {
+    public String shortDesc() {
+        // TODO implement
+        throw new NotImplementedException();
+    }
+    
+    public String longDesc() {
         // TODO implement
         throw new NotImplementedException();
     }
@@ -128,7 +143,7 @@ public class GameModel {
      * @return all the short names of all the rooms the player can travel to
      *         from their current location
      */
-    public Set<String> adjacentRooms() {
+    public List<String> adjacentRooms() {
         return gameState.adjacentRooms();
     }
 

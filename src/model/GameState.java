@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,8 +50,8 @@ public class GameState {
      * from their current room. Returns an empty set if there are no paths
      * leading from this room.
      */
-    public Set<String> adjacentRooms() {
-        Set<String> availableRooms = new HashSet<>();
+    public List<String> adjacentRooms() {
+        List<String> availableRooms = new ArrayList<>();
 
         // retrieve all the short names of all the adjacent rooms
         for (Room room : rooms.adjacent(nameToRoom.get(currRoom))) {
