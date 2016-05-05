@@ -8,7 +8,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utility.GameSaver;
 
 /**
- * Offers an interface with the game state.
+ * Offers an interface with the game data for main, and offers access to the
+ * game state for objects of the model package.
  * 
  * @author Sean Wammer
  */
@@ -129,7 +130,7 @@ public class GameModel {
         // TODO implement
         throw new NotImplementedException();
     }
-    
+
     public String longDesc() {
         // TODO implement
         throw new NotImplementedException();
@@ -152,7 +153,7 @@ public class GameModel {
      * 
      * @return the GameState
      */
-    public GameState getGameState() {
+    protected GameState getGameState() {
         return gameState;
     }
 }
