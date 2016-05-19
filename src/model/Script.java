@@ -36,14 +36,17 @@ public class Script {
      * 'ADD_SCRIPT, <script to add>'
      * 
      * The script you can add follows the same format of any script
-     * 'ADD_SCRIPT, <accepted input>, <any # of commands>'
+     *  'ADD_SCRIPT, <accepted input>,
+     *      <any # of commands>'
      * 
      * This expands to
-     * 'ADD_SCRIPT, <accepted input>, <command type>, <appropriate # of command argument>'
+     *  'ADD_SCRIPT, <accepted input>, 
+     *      <command type>, <appropriate # of command argument>'
      * for some number of command types.
      * 
-     * So for example, say we have the accepted input & script,
+     * Example script in some given room,
      *  "open chest"
+     *      "REMOVE_SCRIPT", "open chest"
      *      "PRINT", "You open the chest. There is an axe inside."
      *      "ADD_SCRIPT", "get axe",
      *          "REMOVE_ITEM", "axe"
