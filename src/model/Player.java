@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 /**
  * <b>Player</b> is a data encapsulation class that represents the player in the
  * game.
@@ -11,16 +13,20 @@ public class Player {
     private String name;
     private int curHealth;
     private int maxHealth;
+    private List<String> inventory;
 
     // TODO: add other fields
 
-    public Player(String name, int curHealth, int maxHealth) {
+    public Player(String name, int curHealth, int maxHealth, List<String> inventory) {
         this.name = name;
         this.curHealth = curHealth;
         this.maxHealth = maxHealth;
+        this.inventory = inventory; // copy out?
 
         // TODO: instantiate other fields
     }
+    
+    // TODO: add methods for inventory management, hasItem, get inventory, addItem, removeItem
 
     /**
      * Returns the name of this
