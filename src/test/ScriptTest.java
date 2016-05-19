@@ -1,13 +1,22 @@
 package test;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import org.junit.BeforeClass;
 
-public class ScriptTest extends TestCase {
+public class ScriptTest {
 
+    @BeforeClass
+    public static void setup() {
+        
+    }
+    
+    @Test
     public void testAppend() {
         fail("Not yet implemented");
     }
     
+    @Test
     public void testExecute() {
         fail("Not yet implemented");
     }
