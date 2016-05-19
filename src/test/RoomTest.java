@@ -36,7 +36,6 @@ public class RoomTest {
         axeScript.add(new Command(model, CommandType.REMOVE_SCRIPT, args));
         args[0] = "You got an axe!";
         axeScript.add(new Command(model, CommandType.PRINT, args));
-        
     }
     
     @Test
@@ -51,12 +50,31 @@ public class RoomTest {
 
     @Test
     public void testRemoveScript() {
-        fail("Not yet implemented");
+        Room room = new Room("Backyard", "Modest Backyard", "A small backyard",
+                "It's wonderful here. There is a tire swing and a chest you can open!");
+
+        room.addScript("Get Axe", axeScript);
+        assertTrue(room.acceptsInput("get axe"));
+        room.removeScript("get AXE");
+        assertTrue(!room.acceptsInput("Get Axe"));
     }
 
     @Test
-    public void testHasCommand() {
-        fail("Not yet implemented");
+    public void testAcceptsInput() {
+        Room room = new Room("Backyard", "Modest Backyard", "A small backyard",
+                "It's wonderful here. There is a tire swing and a chest you can open!");
+
+        // bad inputs, expect false
+        assertTrue(!room.acceptsInput("not accepted input"));
+        assertTrue(!room.acceptsInput(null));
+        assertTrue(!room.acceptsInput(""));
+        
+        // add an accepted input and see if the status flips appropriately
+        assertTrue(!room.acceptsInput("get axe"));
+        room.addScript("Get Axe", axeScript);
+        assertTrue(room.acceptsInput("get axe"));
+        room.removeScript("get AXE");
+        assertTrue(!room.acceptsInput("Get Axe"));
     }
 
     @Test
