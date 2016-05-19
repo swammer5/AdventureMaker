@@ -17,7 +17,7 @@ public class Command {
     String[] args;
 
     /**
-     * Constructs a new Command that
+     * Constructs a new Command.
      * 
      * @param gameState
      */
@@ -57,17 +57,25 @@ public class Command {
 
         // check arg lengths for all command types
         switch (commandType) {
-        case ADD_HEALTH:
-            // int to add to player health
-            assert(args.length == 1);
+        case LOOK:
+            // no args, you just look in the room you are in
+            assert(args.length == 0);
             break;
         case GO:
             // short name of the desired room to travel to
             assert(args.length == 1);
             break;
-        case LOOK:
-            // no args, you just look in the room you are in
-            assert(args.length == 0);
+        case ADD_HEALTH:
+            // int to add to player health
+            assert(args.length == 1);
+            break;
+        case GIVE_ITEM:
+            // give item to player inventory
+            assert(args.length == 1);
+            break;
+        case TAKE_ITEM:
+            // remove item from player inventory
+            assert(args.length == 1);
             break;
         case PRINT:
             // text to print
@@ -93,6 +101,12 @@ public class Command {
             // item to remove
             assert(args.length == 1);
             break;
+        case ADD_SCRIPT:
+            assert(args.length > 2);
+            break;
+        case REMOVE_SCRIPT:
+            assert(args.length > 2);
+            break;
         case SET_NAME_OF:
             // short name of desired room, long name to set given room's name to
             assert(args.length == 2);
@@ -112,6 +126,12 @@ public class Command {
         case REMOVE_ITEM_FROM:
             // short name of desired room, item to remove from given room
             assert(args.length == 2);
+            break;
+        case ADD_SCRIPT_TO:
+            assert(args.length > 3);
+            break;
+        case REMOVE_SCRIPT_FROM:
+            assert(args.length > 3);
             break;
         }
     }
