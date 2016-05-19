@@ -111,7 +111,7 @@ public class Room {
      * 
      * @return the long description of this room.
      */
-    public String getDesc() {
+    public String getLongDesc() {
         return longDesc;
     }
 
@@ -143,28 +143,31 @@ public class Room {
         return acceptedInput.get(fix(input));
     }
 
-    // TODO add setter methods too
-
-    // TODO reorder methods so they make sense
+    /**
+     * Sets the long (descriptive) name of this room.
+     * 
+     * @param name the new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    /**
+     * Sets the short description of this room.
+     * 
+     * @param shortDesc the new short description
+     */
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
+    }
 
     /**
-     * Runs the Script associated with the given command. Returns the output
-     * that the commands produce to be printed by main or the empty string if
-     * there is no output. Returns null if the command was not recognized in
-     * this room.
+     * Sets the long description of this room.
      * 
-     * @param input the command to attempt to run
-     * @return the output that these commands produce to be printed by main or
-     *         an empty String if there is no output, or null if the command is
-     *         not recognized in this Room.
+     * @param longDesc the new long description
      */
-    public String execute(String input) {
-        input = fix(input);
-        if (!acceptsInput(input)) {
-            return null;
-        } else {
-            return acceptedInput.get(input).execute();
-        }
+    public void setLongDesc(String longDesc) {
+        this.longDesc = longDesc;
     }
 
     /**
@@ -202,6 +205,26 @@ public class Room {
      */
     public boolean acceptsInput(String input) {
         return acceptedInput.containsKey(fix(input));
+    }
+    
+    /**
+     * Runs the Script associated with the given command. Returns the output
+     * that the commands produce to be printed by main or the empty string if
+     * there is no output. Returns null if the command was not recognized in
+     * this room.
+     * 
+     * @param input the command to attempt to run
+     * @return the output that these commands produce to be printed by main or
+     *         an empty String if there is no output, or null if the command is
+     *         not recognized in this Room.
+     */
+    public String execute(String input) {
+        input = fix(input);
+        if (!acceptsInput(input)) {
+            return null;
+        } else {
+            return acceptedInput.get(input).execute();
+        }
     }
 
     @Override
