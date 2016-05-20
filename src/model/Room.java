@@ -274,6 +274,9 @@ public class Room {
         return input.toLowerCase().trim();
     }
 
+    /**
+     * Check that the representation invariant hasn't been violated.
+     */
     private void checkRep() {
         // ensure good room representation with null checks
         if (shortName == null) {
