@@ -56,7 +56,7 @@ public class GameParser {
     private PlayerData loadPlayer(String filePath) {
         // Stubbed out
         // TODO implement actual parsing
-        Player player = new Player("bob", 20, 20);
+        Player player = new Player("bob", 20, 20, new ArrayList<String>());
         String currentRoom = "Kitchen";
         return new PlayerData(player, currentRoom);
     }

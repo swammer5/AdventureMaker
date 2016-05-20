@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,12 @@ public class Player {
         this.name = name;
         this.curHealth = curHealth;
         this.maxHealth = maxHealth;
-        this.inventory = inventory; // copy out?
+        
+        // copy in
+        this.inventory = new ArrayList<>();
+        for (String item : inventory) {
+            this.inventory.add(item);
+        }
 
         // TODO: instantiate other fields
     }
