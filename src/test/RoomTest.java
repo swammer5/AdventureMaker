@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 
 public class RoomTest {
 
-    private Script axeScript;
+    private static Script axeScript;
     
     @BeforeClass
     public static void setup() {
@@ -26,7 +26,7 @@ public class RoomTest {
          *         "REMOVE_SCRIPT", "get axe"
          */
         
-        Script axeScript = new Script();
+        axeScript = new Script();
         
         String[] args = {"axe"};
         axeScript.add(new Command(model, CommandType.REMOVE_ITEM, args));
@@ -43,9 +43,13 @@ public class RoomTest {
         Room room = new Room("Backyard", "Modest Backyard", "A small backyard",
                 "It's wonderful here. There is a tire swing and a chest you can open!");
 
+        // making sure script is instantiated
+        assertTrue(axeScript != null);
+
         room.addScript("Get Axe", axeScript);
         
-        assertTrue(room.acceptsInput("get axe"));
+        // also making sure the trim and case are handled
+        assertTrue(room.acceptsInput(" get aXe  "));
     }
 
     @Test
@@ -66,7 +70,6 @@ public class RoomTest {
 
         // bad inputs, expect false
         assertTrue(!room.acceptsInput("not accepted input"));
-        assertTrue(!room.acceptsInput(null));
         assertTrue(!room.acceptsInput(""));
         
         // add an accepted input and see if the status flips appropriately
@@ -77,13 +80,32 @@ public class RoomTest {
         assertTrue(!room.acceptsInput("Get Axe"));
     }
 
-    @Test
+    @Test(expected=IllegalArgumentException.class)
     public void testExecuteBadCommand() {
-        fail("Not yet implemented");
+        Room room = new Room("Backyard", "Modest Backyard", "A small backyard",
+                "It's wonderful here. There is a tire swing and a chest you can open!");
+        room.addScript("get axe", axeScript);
+        
+        String expected = null;
+        String actual = room.execute("bad input ha ha!");
+        assertEquals("unrecognized (not accepted) input should return null", expected, actual);
+        
+        actual = room.execute(" baD inPUt ha ha!    ");
+        assertEquals("unrecognized (not accepted) input should return null", expected, actual);
+        
+        // should throw expected exception here
+        actual = room.execute(null);
     }
 
     @Test
     public void testExecute() {
-        fail("Not yet implemented");
+        Room room = new Room("Backyard", "Modest Backyard", "A small backyard",
+                "It's wonderful here. There is a tire swing and a chest you can open!");
+        room.addScript("get axe", axeScript);
+        
+        String expected = "You got an axe!";
+        String actual = room.execute("get axe");
+        
+        assertEquals("Script associated with command should be executed and return text should be returned", expected, actual);
     }
 }

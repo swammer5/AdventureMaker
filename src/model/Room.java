@@ -26,7 +26,7 @@ public class Room {
     private Map<String, Script> acceptedInput;
 
     private static final String DEFAULT_STRING = "...";
-    
+
     public Room(String shortName) {
         this(shortName, shortName, DEFAULT_STRING, DEFAULT_STRING);
     }
@@ -35,7 +35,7 @@ public class Room {
         this(shortName, name, shortDesc, longDesc, new ArrayList<String>(),
                 new HashMap<String, Script>());
     }
-    
+
     /**
      * Constructs a new Room with the given parameters.
      * 
@@ -45,7 +45,7 @@ public class Room {
      * @param longDesc long description of this
      * @param items a list of items currently in this room
      * @param acceptedInput a map from accepted inputs to Scripts to execute
-     * @throws IllegalArgumentException if shortName is null 
+     * @throws IllegalArgumentException if shortName is null
      */
     public Room(String shortName, String name, String shortDesc,
             String longDesc, List<String> items,
@@ -56,26 +56,8 @@ public class Room {
         this.longDesc = longDesc;
         this.items = items;
         this.acceptedInput = acceptedInput;
-        
-        // ensure good room representation with null checks
-        if (shortName == null) {
-            throw new IllegalArgumentException("short name must not be null.");
-        }
-        if (name == null) {
-            name = DEFAULT_STRING;
-        }
-        if (shortDesc == null) {
-            shortDesc = DEFAULT_STRING;
-        }
-        if (longDesc == null) {
-            longDesc = DEFAULT_STRING;
-        }
-        if (items == null) {
-            items = new ArrayList<String>();
-        }
-        if (acceptedInput == null) {
-            acceptedInput = new HashMap<String, Script>();
-        }
+
+        checkRep();
     }
 
     /**
@@ -138,6 +120,7 @@ public class Room {
      * @param input the user command to retrieve the Script of
      * @return the Script associated with the given input or null if there is no
      *         script associated with this input.
+     * @throws IllegalArgumentException if input == null
      */
     public Script getScript(String input) {
         return acceptedInput.get(fix(input));
@@ -147,27 +130,33 @@ public class Room {
      * Sets the long (descriptive) name of this room.
      * 
      * @param name the new name
+     * @throws IllegalArgumentException if name == null
      */
     public void setName(String name) {
         this.name = name;
+        checkRep();
     }
-    
+
     /**
      * Sets the short description of this room.
      * 
      * @param shortDesc the new short description
+     * @throws IllegalArgumentException if shortDesc == null
      */
     public void setShortDesc(String shortDesc) {
         this.shortDesc = shortDesc;
+        checkRep();
     }
 
     /**
      * Sets the long description of this room.
      * 
      * @param longDesc the new long description
+     * @throws IllegalArgumentException if longDesc == null
      */
     public void setLongDesc(String longDesc) {
         this.longDesc = longDesc;
+        checkRep();
     }
 
     /**
@@ -181,9 +170,15 @@ public class Room {
      * 
      * @param input the user command to register that triggers the given script
      * @param script the script to add to this room
+     * @throws IllegalArgumentException if input == null or script == null
      */
     public Script addScript(String input, Script script) {
         input = fix(input);
+        if (script == null) {
+            throw new IllegalArgumentException("Given script must not be null.");
+        }
+        checkRep();
+
         return acceptedInput.put(input, script);
     }
 
@@ -191,9 +186,11 @@ public class Room {
      * Removes the Script associated with the given user input from this room.
      * 
      * @param input the user command associated with the Script to remove
+     * @throws IllegalArgumentException if input == null
      */
     public void removeScript(String input) {
         acceptedInput.remove(fix(input));
+        checkRep();
     }
 
     /**
@@ -202,11 +199,13 @@ public class Room {
      * 
      * @param input the user command to check
      * @return true iff this room has the given input registered to a script
+     * @throws IllegalArgumentException if input == null
      */
     public boolean acceptsInput(String input) {
+        checkRep();
         return acceptedInput.containsKey(fix(input));
     }
-    
+
     /**
      * Runs the Script associated with the given command. Returns the output
      * that the commands produce to be printed by main or the empty string if
@@ -217,13 +216,16 @@ public class Room {
      * @return the output that these commands produce to be printed by main or
      *         an empty String if there is no output, or null if the command is
      *         not recognized in this Room.
+     * @throws IllegalArgumentException if input == null
      */
     public String execute(String input) {
         input = fix(input);
         if (!acceptsInput(input)) {
             return null;
         } else {
-            return acceptedInput.get(input).execute();
+            String result = acceptedInput.get(input).execute();
+            checkRep();
+            return result;
         }
     }
 
@@ -260,12 +262,40 @@ public class Room {
      * Standardizes the input so that we are more likely to recognize commands.
      * 
      * Implementation note: We currently flatten to lower case and trim
-     * whitespace, so 'get axe' will be the same as ' Get Axe ' and ' GEt AxE'
+     * whitespace, so 'get axe' will be the same as ' Get Axe ' and ' GEt AxE'.
      * 
      * @param input the input String to standardize
      * @return the standardized input string
      */
     private String fix(String input) {
+        if (input == null) {
+            throw new IllegalArgumentException("Input must not be null.");
+        }
         return input.toLowerCase().trim();
+    }
+
+    private void checkRep() {
+        // ensure good room representation with null checks
+        if (shortName == null) {
+            throw new IllegalArgumentException("short name must not be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("name must not be null.");
+        }
+        if (shortDesc == null) {
+            throw new IllegalArgumentException(
+                    "short description must not be null.");
+        }
+        if (longDesc == null) {
+            throw new IllegalArgumentException(
+                    "long description must not be null.");
+        }
+        if (items == null) {
+            throw new IllegalArgumentException("items list must not be null.");
+        }
+        if (acceptedInput == null) {
+            throw new IllegalArgumentException(
+                    "accepted input map must not be null.");
+        }
     }
 }
