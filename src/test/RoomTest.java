@@ -17,7 +17,7 @@ public class RoomTest {
     @BeforeClass
     public static void setup() {
         GameModel model = null;
-        // GameModel model = GameMode.newGame()
+        // GameModel model = GameModel.newGame()
         
         /*
          * "ADD_SCRIPT", "get axe",
