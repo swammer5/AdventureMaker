@@ -70,7 +70,33 @@ public class GameState {
 
         return availableRooms;
     }
-    
+
+    /**
+     * Returns true if and only if we were able to move the player to the room
+     * with the specified short name. If the there is no such room with the
+     * given short name adjacent to the players current room, we return false
+     * and the player is not moved.
+     * 
+     * This is not case sensitive.
+     * 
+     * @param shortName the short name of the room to move the player to
+     * @return true iff the player is successfully moved to the room with the
+     *         given short name
+     */
+    public boolean go(String shortName) {
+        // sanity check to make sure we are all on the same page for caps (main
+        // will probably do this anyway but we don't rely on that)
+        shortName = shortName.toLowerCase().trim();
+        if (!adjacentRooms().contains(shortName)) {
+            // the given room doesn't exist or is not adjacent to current room
+            return false;
+        } else {
+            // the requested room is adjacent so we move player there
+            currRoom = shortName;
+            return true;
+        }
+    }
+
     /**
      * Returns the room with the given short name. Returns null if there is no
      * room with this short name.
@@ -86,9 +112,12 @@ public class GameState {
      *         with the given short name
      */
     public Room getRoom(String shortName) {
+        // sanity check to make sure we are all on the same page for caps (main
+        // will probably do this anyway but we don't rely on that)
+        shortName = shortName.toLowerCase().trim();
         return nameToRoom.get(shortName);
     }
-    
+
     /**
      * Returns the room the player is currently in.
      * 
@@ -97,7 +126,7 @@ public class GameState {
     public Room getCurrentRoom() {
         return nameToRoom.get(currRoom);
     }
-    
+
     /**
      * Returns the player of this game.
      * 
