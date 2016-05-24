@@ -18,11 +18,12 @@ public class Player {
 
     // TODO: add other fields
 
-    public Player(String name, int curHealth, int maxHealth, List<String> inventory) {
+    public Player(String name, int curHealth, int maxHealth,
+            List<String> inventory) {
         this.name = name;
         this.curHealth = curHealth;
         this.maxHealth = maxHealth;
-        
+
         // copy in
         this.inventory = new ArrayList<>();
         for (String item : inventory) {
@@ -31,8 +32,9 @@ public class Player {
 
         // TODO: instantiate other fields
     }
-    
-    // TODO: add methods for inventory management, hasItem, get inventory, addItem, removeItem
+
+    // TODO: add methods for inventory management, hasItem, get inventory,
+    // addItem, removeItem
 
     /**
      * Returns the name of this
@@ -105,6 +107,25 @@ public class Player {
      */
     public void setMaxHealth(int health) {
         maxHealth = health;
+    }
+
+    /**
+     * Adds the given item to this player's inventory.
+     * 
+     * @param item the item to give the player
+     */
+    public void giveItem(String item) {
+        inventory.add(item);
+    }
+
+    /**
+     * Removes one of the given item from this player's inventory. Returns true
+     * if this item is in the player's inventory and therefore removed.
+     * 
+     * @param item the item to remove from the player's inventory
+     */
+    public void removeItem(String item) {
+        inventory.remove(item);
     }
 
     /**
