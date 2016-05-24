@@ -212,6 +212,8 @@ public class Room {
      * there is no output. Returns null if the command was not recognized in
      * this room.
      * 
+     * Input is sanitized by this method.
+     * 
      * @param input the command to attempt to run
      * @return the output that these commands produce to be printed by main or
      *         an empty String if there is no output, or null if the command is
