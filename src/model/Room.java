@@ -207,10 +207,9 @@ public class Room {
     }
 
     /**
-     * Runs the Script associated with the given command. Returns the output
-     * that the commands produce to be printed by main or the empty string if
-     * there is no output. Returns null if the command was not recognized in
-     * this room.
+     * Runs the Script associated with the given input. Returns the output that
+     * the Commands produce to be printed by main or the empty string if there
+     * is no output. Returns null if the input was not recognized in this room.
      * 
      * Input is sanitized by this method.
      * 
