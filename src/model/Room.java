@@ -207,6 +207,25 @@ public class Room {
     }
 
     /**
+     * Adds the given item to this room.
+     * 
+     * @param item the item to add to this room
+     */
+    public void addItem(String item) {
+        items.add(item);
+    }
+
+    /**
+     * Removes one of the given item from this room. Returns true if this item
+     * is in this room and therefore removed.
+     * 
+     * @param item the item to remove from this room
+     */
+    public boolean removeItem(String item) {
+        return items.remove(item);
+    }
+
+    /**
      * Runs the Script associated with the given input. Returns the output that
      * the Commands produce to be printed by main or the empty string if there
      * is no output. Returns null if the input was not recognized in this room.
