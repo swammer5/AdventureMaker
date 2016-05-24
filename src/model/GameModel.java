@@ -154,6 +154,28 @@ public class GameModel {
     }
 
     /**
+     * Returns the long description of the room the player is currently in and a
+     * list of the places the player can travel to (nicely formatted in a comma
+     * separated list).
+     * 
+     * @return the long description of the room the player is in and a list of
+     *         places this player can travel to
+     */
+    public String look() {
+        // add long description
+        String ret = longDesc();
+        ret += "\n";
+        
+        // build list of travel locations
+        ret += "You can go to";
+        for (String shortName : adjacentRooms()) {
+            ret += " " + shortName;
+        }
+        
+        return ret;
+    }
+
+    /**
      * Returns the short names of all the rooms the player can travel to from
      * their current location. Returns an empty set if there are no paths
      * leading from this room.
@@ -164,7 +186,7 @@ public class GameModel {
     public List<String> adjacentRooms() {
         return gameState.adjacentRooms();
     }
-    
+
     /**
      * Runs the script associated with the command in the player's current room.
      * Returns the output that the command produces, or null if the command is
