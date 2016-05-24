@@ -149,11 +149,13 @@ public class GameModel {
     }
 
     /**
-     * Returns the GameState for the game this models
+     * Returns the GameState for the game this model. Only members of this
+     * package or unit tests should use this method! Do not call this method
+     * from main or elsewhere.
      * 
-     * @return the GameState
+     * @return the GameState for this
      */
-    protected GameState getGameState() {
+    public GameState getGameState() {
         return gameState;
     }
 }
