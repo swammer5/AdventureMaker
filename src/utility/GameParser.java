@@ -32,6 +32,10 @@ public class GameParser {
     /**
      * We load in the room data from rooms.tsv, player data from player.tsv.
      * 
+     * Name to room map flattens short names to lowercase! However, the names'
+     * actual case is preserved in the Room itself. This way we can print room
+     * names with correct case, but we ignore case for input.
+     * 
      * @param filePath the path to the directory where the save files are found
      * @return a newly constructed GameState loaded from the files stored at the
      *         given filePath
@@ -64,7 +68,7 @@ public class GameParser {
     private RoomData loadRooms(GameModel gameModel, String filePath) {
         // Stubbed out with a mock room that has a knife and 1 command, 'jump'.
         // TODO implement actual parsing
-        
+
         Graph<Room> rooms = new Graph<>();
 
         // construct item list
@@ -72,26 +76,31 @@ public class GameParser {
         items.add("knife");
 
         // construct accepted input map
-        Map<String, Script> acceptedCommands = new HashMap<>();
+        Map<String, Script> acceptedInput = new HashMap<>();
         String[] args = new String[1];
         args[0] = "You jump with joy!";
         Script script = new Script();
         script.add(new Command(gameModel, CommandType.PRINT, args));
-        acceptedCommands.put("jump", script);
-        
+        acceptedInput.put("jump", script);
+
         // construct room
         Room room = new Room(
                 "Kitchen",
                 "The West Wing Kitchen",
                 "There is a small oven and stove combination appliance nearby. On a small table you see a knife.",
                 "There is a small oven and stove combination appliance nearby. The room is brightly lit and clean. The floor is made up of black and white glossy, checkered tiles. On a small table you see a small but sharp knife.",
-                items, acceptedCommands);
+                items, acceptedInput);
         rooms.addNode(room);
-        
+        // we would also have to add edges between connected rooms to the room graph here
+
         // fill name map with each room
         Map<String, Room> nameToRoom = new HashMap<>();
-        nameToRoom.put(room.getShortName(), room);
-        
+        nameToRoom.put(room.getShortName().toLowerCase(), room);
+        // NOTE: THE toLowerCase() HERE IS VERY VERY IMPORTANT! WHEN YOU
+        // IMPLEMENT THE REAL THING, MAKE SURE TO FLATTEN THE SHORT NAMES IN
+        // THIS MAP TO LOWER CASE SO THAT INPUT CAN IGNORE CASE. LEAVE THE ROOM
+        // DATA ALONE THOUGH.
+
         return new RoomData(rooms, nameToRoom);
     }
 
