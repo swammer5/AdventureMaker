@@ -97,6 +97,23 @@ public class GameState {
         }
     }
 
+//    /**
+//     * Returns true if and only if there is a room with the given short name in
+//     * this. Moves the player to the room with the given short name.
+//     * 
+//     * @param shortName the short name of the room to move the player too
+//     * @return true iff there is a room with the given shortName
+//     */
+//    public boolean teleport(String shortName) {
+//        shortName = shortName.toLowerCase().trim();
+//        if (nameToRoom.containsKey(shortName)) {
+//            currRoom = shortName;
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
     /**
      * Returns the room with the given short name. Returns null if there is no
      * room with this short name.

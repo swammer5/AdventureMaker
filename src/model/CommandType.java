@@ -18,7 +18,7 @@ public enum CommandType {
     // basic //
     ///////////
     
-    LOOK, GO, PRINT,
+    LOOK, GO, PRINT, //TELEPORT,
     
     ////////////
     // player //
