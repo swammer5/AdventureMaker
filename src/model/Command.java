@@ -1,7 +1,5 @@
 package model;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 /**
  * <b>Command</b> is an abstract representation of a request to change the game
  * state or perform an action.
@@ -123,7 +121,7 @@ public class Command {
             // add the specified script to the player's current room
             return addScript();
         case REMOVE_SCRIPT:
-            // remove the specified script from the player's current room
+            // remove the script with the specified input from the player's current room
             return removeScript();
         case SET_NAME_OF:
             // set name of the specified room
@@ -187,8 +185,10 @@ public class Command {
                 return "";
             }
         case ADD_SCRIPT_TO:
+            // add the specified script to the specified room
             return addScriptTo();
         case REMOVE_SCRIPT_FROM:
+            // remove the script with the specified input from the specified room
             return removeScriptFrom();
         default:
             // command not recognized
@@ -203,8 +203,17 @@ public class Command {
      *         added successfully
      */
     private String addScript() {
-        // TODO Auto-generated method stub
-        return null;
+        String input = args[0].toLowerCase().trim();
+        Script scriptToAdd = parseScript(1);
+        
+        if (scriptToAdd == null) {
+            // error with script parsing
+            return null;
+        } else {
+            Room targetRoom = gameModel.getGameState().getCurrentRoom();
+            targetRoom.addScript(input, scriptToAdd);
+            return "";
+        }
     }
 
     /**
@@ -214,8 +223,17 @@ public class Command {
      *         removed successfully
      */
     private String removeScript() {
-        // TODO Auto-generated method stub
-        return null;
+        // input associated with the script to remove
+        String input = args[0].toLowerCase().trim();
+        
+        Room targetRoom = gameModel.getGameState().getCurrentRoom();
+        if (!targetRoom.acceptsInput(input)) {
+            // input is not accepted by this room, nothing to remove
+            return null;
+        } else {
+            targetRoom.removeScript(input);
+            return "";
+        }
     }
 
     /**
@@ -225,8 +243,23 @@ public class Command {
      *         added successfully to the specified room
      */
     private String addScriptTo() {
-        // TODO Auto-generated method stub
-        return null;
+        String shortName = args[0];
+        String input = args[1].toLowerCase().trim();
+        Script scriptToAdd = parseScript(2);
+        
+        if (scriptToAdd == null) {
+            // error with script parsing
+            return null;
+        } else {
+            Room targetRoom = gameModel.getGameState().getRoom(shortName);
+            if (targetRoom == null) {
+                // no room with this name
+                return null;
+            } else {
+                targetRoom.addScript(input, scriptToAdd);
+                return "";
+            }
+        }
     }
 
     /**
@@ -236,13 +269,28 @@ public class Command {
      *         removed successfully from the specified room
      */
     private String removeScriptFrom() {
-        // TODO Auto-generated method stub
-        return null;
+        String shortName = args[0];
+        // input associated with the script to remove
+        String input = args[1].toLowerCase().trim();
+        
+        Room targetRoom = gameModel.getGameState().getRoom(shortName);
+        if (targetRoom == null) {
+            // no room with this name
+            return null;
+        } else {
+            if (!targetRoom.acceptsInput(input)) {
+                // input is not accepted by this room, nothing to remove
+                return null;
+            } else {
+                targetRoom.removeScript(input);
+                return "";
+            }
+        }
     }
 
     /**
      * Parses args starting at scriptStart index and recursively builds a
-     * Script. Returns the parsed Script.
+     * Script. Returns the parsed Script or null if there was an error.
      * 
      * @param scriptStart the index at the start of the script String
      * @return
