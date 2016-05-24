@@ -5,16 +5,18 @@ import java.util.List;
 import java.util.Set;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import utility.GameParser;
 import utility.GameSaver;
 
 /**
  * Offers an interface with the game data for main, and offers access to the
- * game state for objects of the model package.
+ * game state for objects of the model package and unit tests.
  * 
  * @author Sean Wammer
  */
 public class GameModel {
 
+    // TODO: add other fields?
     private int saveFile;
     private GameState gameState;
 
@@ -22,15 +24,17 @@ public class GameModel {
      * Constructs a new GameModel
      */
     private GameModel(int fileNumber) {
-        // TODO: instantiate fields
+        // TODO: instantiate other fields?
         saveFile = fileNumber;
 
         // when we want to load from a file, we won't make a new GameState,
         // we will call GameParser.loadGameState(filepath) to return a populated
         // GameState.
         // the code below is subject to change:
-        // String filepath = "saves/save" + fileNum + ".tsv";
-        // GameState gameState = GameParser.loadGameState(filepath)
+        String filepath = "saves/save" + fileNumber + ".tsv";
+        // pass an instance of ourselves so that we can put references to the
+        // gameModel in commands that GameParser constructs
+        gameState = new GameParser().loadGameState(this, filepath);
     }
 
     /**
@@ -40,7 +44,7 @@ public class GameModel {
     public static GameModel newGame() {
         // TODO implement
         // we pick a new save file, make sure that it isn't taken, then return
-        // loadGame(fileNumber)
+        // new GameParser().loadGameState(fileNumber)
         throw new NotImplementedException();
     }
 
@@ -101,18 +105,6 @@ public class GameModel {
     }
 
     /**
-     * Runs the script associated with the command in the player's current room.
-     * Returns the output that the command produces, or null if the command is
-     * not recognized.
-     * 
-     * @param input the command to attempt to run in this room
-     * @return the output produced by the command input
-     */
-    public String execute(String input) {
-        return gameState.execute(input);
-    }
-
-    /**
      * Moves the player to the room with the given name if that room is adjacent
      * to the current room. Returns true if the player is moved successfully or
      * false if the given room is not adjacent to the player's current room.
@@ -122,18 +114,43 @@ public class GameModel {
      *         room is not adjacent to the player's current room.
      */
     public boolean go(String roomName) {
-        // TODO implement
-        throw new NotImplementedException();
+        return gameState.go(roomName);
     }
 
+    /**
+     * Returns the short name of the room the player is currently in.
+     * 
+     * @return the short name of the room the player is currently in
+     */
+    public String shortName() {
+        return gameState.getCurrentRoom().getShortName();
+    }
+
+    /**
+     * Returns the name of the room the player is currently in.
+     * 
+     * @return the name of the room the player is currently in
+     */
+    public String name() {
+        return gameState.getCurrentRoom().getName();
+    }
+
+    /**
+     * Returns the short description of the room the player is currently in.
+     * 
+     * @return the short description of the room the player is currently in
+     */
     public String shortDesc() {
-        // TODO implement
-        throw new NotImplementedException();
+        return gameState.getCurrentRoom().getShortDesc();
     }
 
+    /**
+     * Returns the long description of the room the player is currently in.
+     * 
+     * @return the long description of the room the player is currently in.
+     */
     public String longDesc() {
-        // TODO implement
-        throw new NotImplementedException();
+        return gameState.getCurrentRoom().getLongDesc();
     }
 
     /**
@@ -146,6 +163,18 @@ public class GameModel {
      */
     public List<String> adjacentRooms() {
         return gameState.adjacentRooms();
+    }
+    
+    /**
+     * Runs the script associated with the command in the player's current room.
+     * Returns the output that the command produces, or null if the command is
+     * not recognized.
+     * 
+     * @param input the command to attempt to run in this room
+     * @return the output produced by the command input
+     */
+    public String execute(String input) {
+        return gameState.execute(input);
     }
 
     /**
