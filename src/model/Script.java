@@ -56,10 +56,13 @@ public class Script {
      *              "GIVE_ITEM", "wood"
      *              "PRINT", "you got wood!"
      *              "LOOK"
-     *          "ADD_SCRIPT", "backyard", "chop tree"
+     *          "END_SCRIPT
+     *          "ADD_SCRIPT_TO", "backyard", "chop tree"
      *              "GIVE_ITEM", "wood"
      *              "PRINT", "you got wood!"
      *              "LOOK"
+     *          "END_SCRIPT"
+     *      "END_SCRIPT"
      *      "ADD_ITEM", "axe"
      * 
      * 'ADD_SCRIPT_TO just has <short room name> at the beginning as the first argument.
