@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,7 +26,12 @@ public class GameMain {
 
         Scanner in = new Scanner(System.in);
 
-        setup(in);
+        try {
+            setup(in);
+        } catch (IOException e) {
+            System.err.println("There was an error setting up the game. Exiting...");
+            e.printStackTrace();
+        }
         interact(in);
         save();
 
@@ -34,13 +40,26 @@ public class GameMain {
 
     /**
      * Sets up the GameModel to prepare the game.
+     * @throws IOException 
      */
-    private static void setup(Scanner in) {
+    private static void setup(Scanner in) throws IOException {
         boolean saveChosen = false;
         while (!saveChosen) {
+            // get available save files
+            List<Integer> saveFiles = GameModel.getSaveFiles();
+            
+            // if it is the first time playing, we start new game automatically
+            if (saveFiles.isEmpty()) {
+                model = GameModel.newGame();
+                if (model == null) {
+                    print("There was a problem creating a new game. Please try again.");
+                    continue;
+                }
+                break;
+            }
+            
             // print available save files
             print("Available save files:");
-            List<Integer> saveFiles = GameModel.getSaveFiles();
             String saves = "";
             for (int saveFile : saveFiles) {
                 saves = saveFile + " ";
@@ -53,16 +72,25 @@ public class GameMain {
             String input = in.nextLine();
             if (!input.equals("")) {
                 // load game
-                fileNumber = Integer.parseInt(input);
-                if (!saveFiles.contains(fileNumber)) {
-                    print("Invalid file number. Cannot load file.");
+                try {
+                    fileNumber = Integer.parseInt(input);
+                    if (!saveFiles.contains(fileNumber)) {
+                        print("Save file does not exist. Cannot load file. Please provide an existing save file number.");
+                        continue;
+                    } else {
+                        model = GameModel.loadGame(fileNumber);
+                    }
+                } catch (NumberFormatException e) {
+                    print("Please give a file number with digits 0-9.");
                     continue;
-                } else {
-                    model = GameModel.loadGame(fileNumber);
                 }
             } else {
                 // new game
                 model = GameModel.newGame();
+                if (model == null) {
+                    print("There was a problem creating a new game. Please try again.");
+                    continue;
+                }
             }
             saveFile = model.getSaveFileNumber();
             saveChosen = true;

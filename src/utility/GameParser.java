@@ -63,7 +63,9 @@ public class GameParser {
 
     private RoomData loadRooms(GameModel gameModel, String filePath) {
         // Stubbed out with a mock room that has a knife and 1 command, 'jump'.
-        // TODO implement actual parsing
+        // TODO implement actual parsing. We'll read in a room edge file of all
+        // room connections, and a file of all room data (including scripts
+        // accepted by each room)
 
         Graph<Room> rooms = new Graph<>();
 
@@ -87,7 +89,8 @@ public class GameParser {
                 "There is a small oven and stove combination appliance nearby. The room is brightly lit and clean. The floor is made up of black and white glossy, checkered tiles. On a small table you see a small but sharp knife.",
                 items, acceptedInput);
         rooms.addNode(room);
-        // we would also have to add edges between connected rooms to the room graph here
+        // we would also have to add edges between connected rooms to the room
+        // graph here
 
         // fill name map with each room
         Map<String, Room> nameToRoom = new HashMap<>();

@@ -1,12 +1,14 @@
 package model;
 
-import java.util.HashSet;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utility.GameParser;
 import utility.GameSaver;
+import org.apache.commons.io.FileUtils;
 
 /**
  * Offers an interface with the game data for main, and offers access to the
@@ -16,36 +18,51 @@ import utility.GameSaver;
  */
 public class GameModel {
 
-    // TODO: add other fields?
     private int saveFile;
-    private GameState gameState;
+    private static GameState gameState;
+
+    private static final int MAX_SAVES = 100;
+    private static final String FRESH_DIR = "new-game";
 
     /**
      * Constructs a new GameModel
      */
     private GameModel(int fileNumber) {
-        // TODO: instantiate other fields?
         saveFile = fileNumber;
 
-        // when we want to load from a file, we won't make a new GameState,
-        // we will call GameParser.loadGameState(filepath) to return a populated
-        // GameState.
-        // the code below is subject to change:
-        String filepath = "saves/save" + fileNumber + ".tsv";
-        // pass an instance of ourselves so that we can put references to the
-        // gameModel in commands that GameParser constructs
+        // load game state for given save file.
+        String filepath = "saves/" + fileNumber + "/save.tsv";
         gameState = new GameParser().loadGameState(this, filepath);
     }
 
     /**
      * Picks a new save file number, and creates a new save file directory for
      * this new game. Returns a GameModel with the new save file loaded.
+     * 
+     * Returns null if we save directory was not created successfully.
+     * 
+     * @throws IOException
      */
-    public static GameModel newGame() {
-        // TODO implement
+    public static GameModel newGame() throws IOException {
         // we pick a new save file, make sure that it isn't taken, then return
-        // new GameParser().loadGameState(fileNumber)
-        throw new NotImplementedException();
+        List<Integer> saveFiles = getSaveFiles();
+        int fileNumber = -1;
+        for (int i = 1; i <= MAX_SAVES; i++) {
+            if (!saveFiles.contains(i)) {
+                // we found an unused save slot! Lets copy the new game files
+                // into a new directory with this file number.
+                fileNumber = i;
+                File freshGameDir = new File(FRESH_DIR);
+                File savesDir = new File("saves/" + fileNumber);
+                boolean success = savesDir.mkdir();
+                if (!success) {
+                    return null;
+                } else {
+                    FileUtils.copyDirectory(freshGameDir, savesDir);
+                }
+            }
+        }
+        return new GameModel(fileNumber);
     }
 
     /**
@@ -56,16 +73,14 @@ public class GameModel {
      * @param fileNumber the file number to attempt to load
      * @return a GameModel if the save file is successfully loaded or null if
      *         the file was not
+     * @throws IOException
      */
-    public static GameModel loadGame(int fileNumber) {
-        // TODO implement
+    public static GameModel loadGame(int fileNumber) throws IOException {
         if (getSaveFiles().contains(fileNumber)) {
-            // gameState = GameParser.loadGameState(filePath);
-            // return true;
+            return new GameModel(fileNumber);
         } else {
             return null;
         }
-        throw new NotImplementedException();
     }
 
     /**
@@ -73,22 +88,22 @@ public class GameModel {
      * list if there are no save files available.
      * 
      * @return a list of all existing save file numbers
+     * @throws IOException
      */
-    public static List<Integer> getSaveFiles() {
-        // we are in '.' working directory
-        // we need to look in 'saves'
-        // the path of a particular save file directory '1' will be
-        // 'saves/1/'
-        // to get all the saves, google 'get all sub-directories in java'. I
-        // think we
-        // are looking for something similar to glob
-        throw new NotImplementedException();
+    public static List<Integer> getSaveFiles() throws IOException {
+        File savesDir = new File("saves");
+        File[] fileList = savesDir.listFiles();
+        List<Integer> fileNumbers = new ArrayList<>();
+        for (File file : fileList) {
+            fileNumbers.add(Integer.parseInt(file.getName()));
+        }
+        return fileNumbers;
     }
 
     /**
-     * Returns the save file number that has been loaded for this GameModel
+     * Returns the save file number that has been loaded for this.
      * 
-     * @return
+     * @return the save file number that has been loaded for this
      */
     public int getSaveFileNumber() {
         return saveFile;
@@ -98,10 +113,8 @@ public class GameModel {
      * Saves the loaded game, or has no effect if there is no loaded game.
      */
     public void saveGame() {
-        // TODO implement
-        // String filePath = "";
-        // GameSaver.saveGameState(filePath, gameState);
-        throw new NotImplementedException();
+        String filePath = "save/" + saveFile;
+        GameSaver.saveGameState(filePath, gameState);
     }
 
     /**
@@ -165,13 +178,13 @@ public class GameModel {
         // add long description
         String ret = longDesc();
         ret += "\n";
-        
+
         // build list of travel locations
         ret += "You can go to";
         for (String shortName : adjacentRooms()) {
             ret += " " + shortName;
         }
-        
+
         return ret;
     }
 

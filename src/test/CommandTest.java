@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.List;
 
 import model.Command;
@@ -18,7 +19,7 @@ public class CommandTest {
     private static GameModel model;
 
     @BeforeClass
-    public static void setup() {
+    public static void setup() throws IOException {
         // this should be mocked but it's ok. It'll just depend on GameModel.
         model = GameModel.newGame();
     }
