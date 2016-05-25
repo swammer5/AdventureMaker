@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <b>Command</b> is an abstract representation of a request to change the game
  * state or perform an action.
@@ -121,13 +124,23 @@ public class Command {
             // add the specified script to the player's current room
             return addScript();
         case REMOVE_SCRIPT:
-            // remove the script with the specified input from the player's current room
-            return removeScript();
+            // remove the script with the specified input from the player's
+            // current room
+            String input = args[0];
+
+            Room targetRoom = gameModel.getGameState().getCurrentRoom();
+            if (!targetRoom.acceptsInput(input)) {
+                // input is not accepted by this room, nothing to remove
+                return null;
+            } else {
+                targetRoom.removeScript(input);
+                return "";
+            }
         case SET_NAME_OF:
             // set name of the specified room
             shortName = args[0];
             newName = args[1];
-            Room targetRoom = gameModel.getGameState().getRoom(shortName);
+            targetRoom = gameModel.getGameState().getRoom(shortName);
             if (targetRoom == null) {
                 // no room with this name
                 return null;
@@ -188,8 +201,25 @@ public class Command {
             // add the specified script to the specified room
             return addScriptTo();
         case REMOVE_SCRIPT_FROM:
-            // remove the script with the specified input from the specified room
-            return removeScriptFrom();
+            // remove the script with the specified input from the specified
+            // room
+            shortName = args[0];
+            // input associated with the script to remove
+            input = args[1].toLowerCase().trim();
+
+            targetRoom = gameModel.getGameState().getRoom(shortName);
+            if (targetRoom == null) {
+                // no room with this name
+                return null;
+            } else {
+                if (!targetRoom.acceptsInput(input)) {
+                    // input is not accepted by this room, nothing to remove
+                    return null;
+                } else {
+                    targetRoom.removeScript(input);
+                    return "";
+                }
+            }
         default:
             // command not recognized
             return null;
@@ -205,33 +235,13 @@ public class Command {
     private String addScript() {
         String input = args[0].toLowerCase().trim();
         Script scriptToAdd = parseScript(1);
-        
+
         if (scriptToAdd == null) {
             // error with script parsing
             return null;
         } else {
             Room targetRoom = gameModel.getGameState().getCurrentRoom();
             targetRoom.addScript(input, scriptToAdd);
-            return "";
-        }
-    }
-
-    /**
-     * Remove this Command's script from the player's current room.
-     * 
-     * @return null if there was an error or empty string ("") if script was
-     *         removed successfully
-     */
-    private String removeScript() {
-        // input associated with the script to remove
-        String input = args[0].toLowerCase().trim();
-        
-        Room targetRoom = gameModel.getGameState().getCurrentRoom();
-        if (!targetRoom.acceptsInput(input)) {
-            // input is not accepted by this room, nothing to remove
-            return null;
-        } else {
-            targetRoom.removeScript(input);
             return "";
         }
     }
@@ -246,7 +256,7 @@ public class Command {
         String shortName = args[0];
         String input = args[1].toLowerCase().trim();
         Script scriptToAdd = parseScript(2);
-        
+
         if (scriptToAdd == null) {
             // error with script parsing
             return null;
@@ -263,43 +273,43 @@ public class Command {
     }
 
     /**
-     * Remove this Command's script from the room specified in args[0].
+     * Parses args starting at scriptStart index and builds a Script. Returns
+     * the parsed Script or null if there was an error.
      * 
-     * @return null if there was an error or empty string ("") if script was
-     *         removed successfully from the specified room
-     */
-    private String removeScriptFrom() {
-        String shortName = args[0];
-        // input associated with the script to remove
-        String input = args[1].toLowerCase().trim();
-        
-        Room targetRoom = gameModel.getGameState().getRoom(shortName);
-        if (targetRoom == null) {
-            // no room with this name
-            return null;
-        } else {
-            if (!targetRoom.acceptsInput(input)) {
-                // input is not accepted by this room, nothing to remove
-                return null;
-            } else {
-                targetRoom.removeScript(input);
-                return "";
-            }
-        }
-    }
-
-    /**
-     * Parses args starting at scriptStart index and recursively builds a
-     * Script. Returns the parsed Script or null if there was an error.
-     * 
-     * @param scriptStart the index at the start of the script String
-     * @return
+     * @param scriptStart the index at the start of the Script
+     * @return the parsed Script or null if there was an error
      */
     private Script parseScript(int scriptStart) {
         Script script = new Script();
-        
+
         // while there are still commands, add to the script
-        
+        int i = scriptStart;
+        while (i < args.length) {
+            // Build next command
+            CommandType ct = CommandType.get(args[i]);
+            List<String> arguments = new ArrayList<String>();
+            
+            // build arg array
+            if (ct == CommandType.ADD_SCRIPT || ct == CommandType.ADD_SCRIPT_TO) {
+                // continue until we find END_SCRIPT
+                while (!args[i].equalsIgnoreCase("END_SCRIPT")) {
+                    arguments.add(args[i]);
+                    i++;
+                }
+                i++;
+            } else {
+                // continue until we find another command
+                while (CommandType.get(args[i]) == null) {
+                    arguments.add(args[i]);
+                    i++;
+                }
+            }
+            
+            // add this command to the script
+            String[] args = (String[]) arguments.toArray();
+            Command nextCommand = new Command(gameModel, ct, args);
+            script.add(nextCommand);
+        }
         return script;
     }
 
