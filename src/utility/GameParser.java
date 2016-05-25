@@ -23,10 +23,6 @@ import model.Script;
  */
 public class GameParser {
 
-    // TODO get *static* GameParser to work.
-    // When I tried it, I wasn't able to return objects in the static methods
-    // because there was no GameParser to save it into I guess.
-
     // we just use the default constructor because we don't need any fields.
 
     /**
