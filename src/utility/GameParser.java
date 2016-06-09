@@ -80,12 +80,53 @@ public class GameParser {
 
         // construct accepted input map
         Map<String, Script> acceptedInput = new HashMap<>();
-        String[] args = new String[1];
-        args[0] = "You jump with joy!";
-        Script script = new Script();
-        script.add(new Command(gameModel, CommandType.PRINT, args));
-        acceptedInput.put("jump", script);
 
+        // jump
+        Script script1 = new Script();
+        String[] args1 = new String[1];
+        args1[0] = "You jump with joy!";
+        script1.add(new Command(gameModel, CommandType.PRINT, args1));
+        
+        // take knife
+        Script script2 = new Script();
+        String[] args2 = new String[1];
+        args2[0] = "knife";
+        script2.add(new Command(gameModel, CommandType.REMOVE_ITEM, args2));
+        
+        String[] args3 = new String[1];
+        args3[0] = "knife";
+        script2.add(new Command(gameModel, CommandType.GIVE_ITEM, args3));
+        
+        String[] args4 = new String[1];
+        args4[0] = "You take the knife off the small table.";
+        script2.add(new Command(gameModel, CommandType.PRINT, args4));
+        
+        String[] args5 = new String[1];
+        args5[0] = "There is a small oven and stove combination appliance nearby. The room is brightly lit and clean. The floor is made up of black and white glossy, checkered tiles.";
+        script2.add(new Command(gameModel, CommandType.SET_DESC, args5));
+        
+        String[] args6 = new String[1];
+        args6[0] = "There is a small oven and stove combination appliance nearby.";
+        script2.add(new Command(gameModel, CommandType.SET_SHORT_DESC, args5));
+        
+        // use knife
+        Script script3 = new Script();
+        String[] args7 = new String[1];
+        args7[0] = "You accidentally cut your finger!";
+        script3.add(new Command(gameModel, CommandType.PRINT, args1));
+        
+        String[] args8 = new String[1];
+        args8[0] = "There is a small oven and stove combination appliance nearby. The room is brightly lit and clean. The floor is made up of black and white glossy, checkered tiles. There's a small pool of blood on the floor now.";
+        script3.add(new Command(gameModel, CommandType.SET_DESC, args6));
+        
+        String[] args9 = new String[1];
+        args9[0] = "-1";
+        script3.add(new Command(gameModel, CommandType.ADD_HEALTH, args6));
+        
+        acceptedInput.put("jump", script1);
+        acceptedInput.put("take knife", script2);
+        acceptedInput.put("use knife", script3);
+        
         // construct room
         Room room = new Room(
                 "Kitchen",
@@ -94,9 +135,11 @@ public class GameParser {
                 "There is a small oven and stove combination appliance nearby. The room is brightly lit and clean. The floor is made up of black and white glossy, checkered tiles. On a small table you see a small but sharp knife.",
                 items, acceptedInput);
         rooms.addNode(room);
+
         // we would also have to add edges between connected rooms to the room
         // graph here
-
+        
+        
         // fill name map with each room
         Map<String, Room> nameToRoom = new HashMap<>();
         nameToRoom.put(room.getShortName().toLowerCase(), room);
