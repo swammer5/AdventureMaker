@@ -29,7 +29,8 @@ public class GameMain {
         try {
             setup(in);
         } catch (IOException e) {
-            System.err.println("There was an error setting up the game. Exiting...");
+            System.err
+                    .println("There was an error setting up the game. Exiting...");
             e.printStackTrace();
         }
         interact(in);
@@ -40,14 +41,15 @@ public class GameMain {
 
     /**
      * Sets up the GameModel to prepare the game.
-     * @throws IOException 
+     * 
+     * @throws IOException
      */
     private static void setup(Scanner in) throws IOException {
         boolean saveChosen = false;
         while (!saveChosen) {
             // get available save files
             List<Integer> saveFiles = GameModel.getSaveFiles();
-            
+
             // if it is the first time playing, we start new game automatically
             if (saveFiles.isEmpty()) {
                 model = GameModel.newGame();
@@ -57,12 +59,12 @@ public class GameMain {
                 }
                 break;
             }
-            
+
             // print available save files
             print("Available save files:");
             String saves = "";
             for (int saveFile : saveFiles) {
-                saves = saveFile + " ";
+                saves += saveFile + " ";
             }
             print(saves.trim());
 
@@ -93,6 +95,7 @@ public class GameMain {
                 }
             }
             saveFile = model.getSaveFileNumber();
+            print("Save file " + saveFile + " successfully loaded.");
             saveChosen = true;
         }
     }
@@ -118,6 +121,9 @@ public class GameMain {
      * Handles main interaction with user.
      */
     private static void interact(Scanner in) {
+        // print short description to indicate interaction has started
+        print(model.shortDesc());
+        
         boolean quit = false;
         while (!quit) {
             // TODO ask for input and redirect to appropriate command method

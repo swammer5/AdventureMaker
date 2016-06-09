@@ -19,7 +19,7 @@ import org.apache.commons.io.FileUtils;
 public class GameModel {
 
     private int saveFile;
-    private static GameState gameState;
+    private GameState gameState;
 
     private static final int MAX_SAVES = 100;
     private static final String FRESH_DIR = "new-game";
@@ -31,8 +31,8 @@ public class GameModel {
         saveFile = fileNumber;
 
         // load game state for given save file.
-        String filepath = "saves/" + fileNumber + "/save.tsv";
-        gameState = new GameParser().loadGameState(this, filepath);
+        String saveDir = "saves/" + fileNumber;
+        gameState = new GameParser().loadGameState(this, saveDir);
     }
 
     /**
@@ -154,7 +154,8 @@ public class GameModel {
      * @return the short description of the room the player is currently in
      */
     public String shortDesc() {
-        return gameState.getCurrentRoom().getShortDesc();
+        Room curRoom = gameState.getCurrentRoom();
+        return curRoom.getShortDesc();
     }
 
     /**

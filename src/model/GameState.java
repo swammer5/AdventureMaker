@@ -15,6 +15,15 @@ import java.util.Set;
  */
 public class GameState {
 
+    /*
+     * Representation invariant:
+     * ========================
+     * 
+     * -fields all non-null
+     * -currRoom is always lowercase (true case is stored in Room itself)
+     * -rooms.contains(nameToRoom.get(currRoom)) == true
+     */
+    
     private Graph<Room> rooms;
     private String currRoom;
     private Player player;
@@ -41,7 +50,7 @@ public class GameState {
             String currentPlayerRoom, Map<String, Room> nameToRoom) {
         this.rooms = rooms;
         this.player = player;
-        this.currRoom = currentPlayerRoom;
+        this.currRoom = currentPlayerRoom.toLowerCase().trim();
         this.nameToRoom = nameToRoom;
     }
 
@@ -67,7 +76,7 @@ public class GameState {
         for (Room room : rooms.adjacent(nameToRoom.get(currRoom))) {
             availableRooms.add(room.getShortName());
         }
-
+        
         return availableRooms;
     }
 
@@ -142,7 +151,7 @@ public class GameState {
      * @return the room the player is currently in.
      */
     public Room getCurrentRoom() {
-        return nameToRoom.get(currRoom);
+        return nameToRoom.get(currRoom.toLowerCase());
     }
 
     /**

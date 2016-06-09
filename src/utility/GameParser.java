@@ -1,5 +1,6 @@
 package utility;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,10 +55,14 @@ public class GameParser {
     }
 
     private PlayerData loadPlayer(String filePath) {
-        // Stubbed out
+        // filepath is the directory in which we find out file
+        String playerFilePath = filePath + "/player.tsv";
+        File playerFile = new File(playerFilePath);
         // TODO implement actual parsing
+
+        // Stubbed out
         Player player = new Player("bob", 20, 20, new ArrayList<String>());
-        String currentRoom = "Kitchen";
+        String currentRoom = "kitchen";
         return new PlayerData(player, currentRoom);
     }
 
@@ -98,7 +103,8 @@ public class GameParser {
         // NOTE: THE toLowerCase() HERE IS VERY VERY IMPORTANT! WHEN YOU
         // IMPLEMENT THE REAL THING, MAKE SURE TO FLATTEN THE SHORT NAMES IN
         // THIS MAP TO LOWER CASE SO THAT INPUT CAN IGNORE CASE. LEAVE THE ROOM
-        // DATA ALONE THOUGH.
+        // DATA ALONE THOUGH. THAT WAY THE ROOM NAME DISPLAYS RIGHT, BUT WE MAP
+        // THE FLATTENED NAME.
 
         return new RoomData(rooms, nameToRoom);
     }
