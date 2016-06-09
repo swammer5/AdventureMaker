@@ -28,6 +28,21 @@ public class Graph<K> {
     }
 
     /**
+     * Returns true iff this contains a node with the given data.
+     * 
+     * @param data - the data of the node to check
+     * @return true iff the given node is in this graph.
+     * @throws IllegalArgumentException if (data == null)
+     */
+    public boolean containsNode(K data) {
+        if (data == null) {
+            throw new IllegalArgumentException("data must not be null");
+        }
+        Node<K> node = new Node<>(data);
+        return nodes.containsKey(node);
+    }
+
+    /**
      * Adds a new node to this Graph.
      * 
      * If the given node is already in this graph, then the previous node is
@@ -36,7 +51,7 @@ public class Graph<K> {
      * added after A is added, B will overwrite A.
      * 
      * @param data The data to be inserted as a node in this Graph
-     * @throws IllegalArgumentException if (node == null)
+     * @throws IllegalArgumentException if (data == null)
      */
     public void addNode(K data) {
         if (data == null) {
@@ -81,6 +96,23 @@ public class Graph<K> {
     }
 
     /**
+     * Removes the edge in this Graph from given parent to the given child. Has
+     * no effect if the edge does not exist.
+     * 
+     * You specify the target edge by specifying end point nodes, A and B in
+     * edge, (A,B).
+     * 
+     * @param parent The node the target edge points from
+     * @param child The node the target edge points to
+     */
+    public void removeEdge(K parent, K child) {
+        Node<K> parentNode = new Node<K>(parent);
+        if (nodes.containsKey(parentNode)) {
+            nodes.get(parentNode).remove(new Node<K>(child));
+        }
+    }
+
+    /**
      * Returns all the node objects K that are adjacent to source, or null if
      * there is no node with object source.
      * 
@@ -96,22 +128,5 @@ public class Graph<K> {
         }
 
         return adjacent;
-    }
-
-    /**
-     * Removes the edge in this Graph from given parent to the given child. Has
-     * no effect if the edge does not exist.
-     * 
-     * You specify the target edge by specifying end point nodes, A and B in
-     * edge, (A,B).
-     * 
-     * @param parent The node the target edge points from
-     * @param child The node the target edge points to
-     */
-    public void removeEdge(K parent, K child) {
-        Node<K> parentNode = new Node<K>(parent);
-        if (nodes.containsKey(parentNode)) {
-            nodes.get(parentNode).remove(new Node<K>(child));
-        }
     }
 }
