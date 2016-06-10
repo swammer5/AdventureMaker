@@ -21,7 +21,8 @@ public class CommandTest {
     @BeforeClass
     public static void setup() throws IOException {
         // this should be mocked but it's ok. It'll just depend on GameModel.
-        model = GameModel.newGame();
+        model = GameModel.loadGame(1);
+        //model = GameModel.newGame();
     }
 
     @Test
