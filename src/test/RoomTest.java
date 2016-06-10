@@ -96,16 +96,4 @@ public class RoomTest {
         // should throw expected exception here
         actual = room.execute(null);
     }
-
-    @Test
-    public void testExecute() {
-        Room room = new Room("Backyard", "Modest Backyard", "A small backyard",
-                "It's wonderful here. There is a tire swing and a chest you can open!");
-        room.addScript("get axe", axeScript);
-        
-        String expected = "You got an axe!";
-        String actual = room.execute("get axe");
-        
-        assertEquals("Script associated with command should be executed and return text should be returned", expected, actual);
-    }
 }
