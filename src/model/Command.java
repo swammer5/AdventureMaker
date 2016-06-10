@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
+
 /**
  * <b>Command</b> is an abstract representation of a request to change the game
  * state or perform an action.
@@ -19,9 +21,12 @@ public class Command {
     String[] args;
 
     /**
-     * Constructs a new Command.
+     * Constructs a new Command with the given arguments.
      * 
-     * @param gameState
+     * @param gameModel a reference to the gameModel so that Commands can make
+     *        changes to the game.
+     * @param commandType the type of action this command will perform
+     * @param args an array or arguments for this command
      */
     public Command(GameModel gameModel, CommandType commandType, String[] args) {
         this.gameModel = gameModel;
@@ -102,12 +107,13 @@ public class Command {
         case SET_SHORT_DESC:
             // set short description of the player's current room
             String newShortDesc = args[0];
-            gameModel.getGameState().getCurrentRoom().setName(newShortDesc);
+            gameModel.getGameState().getCurrentRoom()
+                    .setShortDesc(newShortDesc);
             return "";
         case SET_DESC:
             // set long description of the player's current room
             String newLongDesc = args[0];
-            gameModel.getGameState().getCurrentRoom().setName(newLongDesc);
+            gameModel.getGameState().getCurrentRoom().setLongDesc(newLongDesc);
             return "";
         case ADD_ITEM:
             // add item to the player's current room
@@ -131,7 +137,9 @@ public class Command {
             Room targetRoom = gameModel.getGameState().getCurrentRoom();
             if (!targetRoom.acceptsInput(input)) {
                 // input is not accepted by this room, nothing to remove
-                return null;
+                // we could throw error here but choose not to to make the game
+                // more stable.
+                return "";
             } else {
                 targetRoom.removeScript(input);
                 return "";
@@ -288,27 +296,36 @@ public class Command {
             // Build next command
             CommandType ct = CommandType.get(args[i]);
             List<String> arguments = new ArrayList<String>();
-            
+
             // build arg array
             if (ct == CommandType.ADD_SCRIPT || ct == CommandType.ADD_SCRIPT_TO) {
                 // continue until we find END_SCRIPT
+                i++;
                 while (!args[i].equalsIgnoreCase("END_SCRIPT")) {
                     arguments.add(args[i]);
                     i++;
+                    if (i >= args.length) {
+                        throw new InvalidGameDataException(
+                                "END_SCRIPT not found. END_SCRIPT required at the end of ADD_SCRIPT commands");
+                    }
                 }
                 i++;
             } else {
                 // continue until we find another command
-                while (CommandType.get(args[i]) == null) {
+                i++;
+                while (i < args.length && CommandType.get(args[i]) == null) {
                     arguments.add(args[i]);
                     i++;
                 }
             }
-            
+
             // add this command to the script
-            String[] args = (String[]) arguments.toArray();
+            String[] args = (String[]) arguments.toArray(new String[0]);
             Command nextCommand = new Command(gameModel, ct, args);
             script.add(nextCommand);
+
+            // at the end of the loop, if we haven't seen every argument to this
+            // command, then we still have commands left to add to this script.
         }
         return script;
     }
@@ -402,6 +419,18 @@ public class Command {
         case REMOVE_SCRIPT_FROM:
             assert (args.length > 3);
             break;
+        }
+    }
+
+    public class InvalidGameDataException extends RuntimeException {
+        public InvalidGameDataException() {
+            // this is inserted by java automatically, but I'll keep it in for
+            // readability for readers who don't know.
+            super();
+        }
+
+        public InvalidGameDataException(String message) {
+            super(message);
         }
     }
 }
